@@ -22,7 +22,7 @@ def text_objects(text, font):
 
 
 # MAKE A CLICKABLE BUTTON
-def button(text, x, y, w, h, i, a):
+def button(text, x, y, w, h, i, a, t_size):
     mouse = pygame.mouse.get_pos()
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(screen, a, (x, y, w, h))
@@ -31,7 +31,7 @@ def button(text, x, y, w, h, i, a):
     else:
         pygame.draw.rect(screen, i, (x, y, w, h))
 
-    small_text = pygame.font.SysFont('arial', 20)
+    small_text = pygame.font.SysFont('arial', t_size)
     text_surf, text_rect = text_objects(text, small_text)
     text_rect.center = (x+(w/2)), (y+(h/2))
     screen.blit(text_surf, text_rect)
@@ -46,10 +46,10 @@ def game_menu():
                 pygame.quit()
                 sys.exit()
         screen.blit(bg, (0, 0))
-        if button('Play', (screen_x*0.38), (screen_y*0.55), 120, 50, yellow, green) == 1:
+        if button('Play', (screen_x*0.38), (screen_y*0.55), 120, 50, yellow, green, 20) == 1:
             print('Start game')
             # Start game loop
-        if button('Something', (screen_x*0.52), (screen_y*0.55), 120, 50, yellow, green) == 1:
+        if button('Something', (screen_x*0.52), (screen_y*0.55), 120, 50, yellow, green, 20) == 1:
             print('Something')
         pygame.display.update()
 
