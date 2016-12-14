@@ -46,6 +46,7 @@ def main():
 
         level.draw(screen)
         active_sprite_list.draw(screen)
+
         pygame.display.flip()
 
         clock.tick(60)

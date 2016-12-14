@@ -14,11 +14,12 @@ class Landscape(pygame.sprite.Sprite):
         self.rect = None
 
     def update(self):
-        screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
+        #screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
         #Terrain = LandScape.Landscape()
         background = pygame.Surface(screen.get_size())
 
     def draw(self, screen):
+        screen.fill(constants.BLACK)
         screen.blit(self.image, self.rect)
         pygame.display.update()
 
