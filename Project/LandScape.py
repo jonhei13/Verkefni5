@@ -11,6 +11,7 @@ class Landscape(pygame.sprite.Sprite):
 
 
 
+
     # def GetImage(self):
     #
     #     image = pygame.Surface([])
