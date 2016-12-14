@@ -9,6 +9,8 @@ def main():
 
     screen = pygame.display.set_mode((screen_x, screen_y))
     Terrain = LandScape.Landscape()
+    background = pygame.Surface(screen.get_size())
+
 
     while True:
         for event in pygame.event.get():
