@@ -1,6 +1,10 @@
+from cmath import rect
+
 import pygame
 import sys
 from Project import LandScape
+from Project import worm
+from Project import constants
 
 def main():
     pygame.init()
@@ -10,6 +14,17 @@ def main():
     screen = pygame.display.set_mode((screen_x, screen_y))
     Terrain = LandScape.Landscape()
     background = pygame.Surface(screen.get_size())
+    active_sprite_list = pygame.sprite.Group()
+
+    player = worm.Worm()
+    player.rect.x = 700
+    player.rect.y = 700
+    active_sprite_list.add(player)
+
+    clock = pygame.time.Clock()
+
+
+
 
 
     while True:
@@ -17,9 +32,25 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player.go_left()
+            if event.key == pygame.K_RIGHT:
+                player.go_right()
+            if event.key == pygame.K_UP:
+                player.jump()
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT and player.change_x < 0:
+                player.stop()
+            if event.key == pygame.K_RIGHT and player.change_x > 0:
+                player.stop()
         screen.blit(Terrain.image, Terrain.rect)
+        screen.blit(player.image, (700, 150))
         pygame.display.update()
+        active_sprite_list.update()
 
 
+        clock.tick(60)
 
 main()
