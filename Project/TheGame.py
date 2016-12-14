@@ -8,18 +8,25 @@ from Project import constants
 
 def main():
     pygame.init()
-    screen_x = 1280
-    screen_y = 720
+    screen_x = constants.SCREEN_WIDTH
+    screen_y = constants.SCREEN_HEIGHT
 
     screen = pygame.display.set_mode((screen_x, screen_y))
-    level = LandScape.LandScape01()
-    background = pygame.Surface(screen.get_size())
-    active_sprite_list = pygame.sprite.Group()
+    pygame.display.set_caption("Ormstunga")
 
     player = worm.Worm()
+
+    current_level = LandScape.LandScape01(player)
+
+    #background = pygame.Surface(screen.get_size())
+
+    active_sprite_list = pygame.sprite.Group()
+
+
     player.rect.x = 150
-    player.rect.y = 150
-    player.level = level
+    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
+    player.level = current_level
+
     active_sprite_list.add(player)
 
     clock = pygame.time.Clock()
@@ -45,11 +52,14 @@ def main():
 
         active_sprite_list.update()
 
-        level.draw(screen)
+        current_level.update()
+
+        current_level.draw(screen)
         active_sprite_list.draw(screen)
 
         pygame.display.flip()
 
         clock.tick(60)
 
-main()
+if __name__ == "__main__":
+    main()
