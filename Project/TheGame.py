@@ -12,20 +12,16 @@ def main():
     screen_y = 720
 
     screen = pygame.display.set_mode((screen_x, screen_y))
-    Terrain = LandScape.Landscape()
+    level = LandScape.LandScape01()
     background = pygame.Surface(screen.get_size())
     active_sprite_list = pygame.sprite.Group()
 
     player = worm.Worm()
-    player.rect.x = 700
-    player.rect.y = 700
+    player.rect.x = 150
+    player.rect.y = 150
     active_sprite_list.add(player)
 
     clock = pygame.time.Clock()
-
-
-
-
 
     while True:
         for event in pygame.event.get():
@@ -45,11 +41,12 @@ def main():
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
-        screen.blit(Terrain.image, Terrain.rect)
-        screen.blit(player.image, (700, 150))
-        pygame.display.update()
+
         active_sprite_list.update()
 
+        level.draw(screen)
+        active_sprite_list.draw(screen)
+        pygame.display.flip()
 
         clock.tick(60)
 
