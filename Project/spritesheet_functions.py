@@ -3,9 +3,6 @@ This module is used to pull individual sprites from sprite sheets.
 """
 import pygame
 
-import constants
-
-
 class SpriteSheet(object):
     """ Class used to grab images out of a sprite sheet. """
 
@@ -27,7 +24,6 @@ class SpriteSheet(object):
         image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
 
         # Assuming black works as the transparent color
-        image.set_colorkey(constants.BLACK)
 
         # Return the image
         return image
