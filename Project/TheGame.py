@@ -19,6 +19,7 @@ def main():
     player = worm.Worm()
     player.rect.x = 150
     player.rect.y = 150
+    player.level = level
     active_sprite_list.add(player)
 
     clock = pygame.time.Clock()

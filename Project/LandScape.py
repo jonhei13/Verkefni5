@@ -21,7 +21,7 @@ class Landscape(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.fill(constants.BLACK)
         screen.blit(self.image, self.rect)
-        pygame.display.update()
+
 
 
 class LandScape01(Landscape):
