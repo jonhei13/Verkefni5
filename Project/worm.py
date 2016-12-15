@@ -42,6 +42,13 @@ class Worm(pygame.sprite.Sprite):
 
         self.grenade_frames_r = []
         self.grenade_frames_l = []
+
+        self.holybomb_frames_r = []
+        self.holybomb_frames_l = []
+
+        self.baseball_frames_r = []
+        self.baseball_frames_l = []
+
         # What direction is the player facing?
         self.direction = "R"
 
@@ -96,6 +103,24 @@ class Worm(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(705, 126, 35, 40)
         self.grenade_frames_l.append(image)
 
+        # Load players when holding a holy bomb right
+        image = sprite_sheet.get_image(372, 126, 35, 40)
+        image = pygame.transform.flip(image, True, False)
+        self.holybomb_frames_r.append(image)
+
+        # Load players when holding a holy bomb left
+        image = sprite_sheet.get_image(372, 126, 35, 40)
+        self.holybomb_frames_l.append(image)
+
+        # Load players when holding a baseball bat right
+        image = sprite_sheet.get_image(489, 210, 49, 47)
+        image = pygame.transform.flip(image, True, False)
+        self.baseball_frames_r.append(image)
+
+        # Load players when holding a baseball bat left
+        image = sprite_sheet.get_image(489, 210, 49, 47)
+        self.baseball_frames_l.append(image)
+
         # Load player jumping left
         image = sprite_sheet.get_image(195, 5, 18, 33)  # jumping
         self.jumping_frames_l.append(image)
@@ -133,6 +158,12 @@ class Worm(pygame.sprite.Sprite):
                 elif self.current_gun == 1:
                     self.image = self.grenade_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
+                elif self.current_gun == 2:
+                    self.image = self.holybomb_frames_r[0]
+                    self.mask = pygame.mask.from_surface(self.image)
+                elif self.current_gun == 3:
+                    self.image = self.baseball_frames_r[0]
+                    self.mask = pygame.mask.from_surface(self.image)
         else:
             frame = (pos // 30) % len(self.walking_frames_l)
             if self.jumping:
@@ -145,7 +176,12 @@ class Worm(pygame.sprite.Sprite):
                 elif self.current_gun == 1:
                     self.image = self.grenade_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
-
+                elif self.current_gun == 2:
+                    self.image = self.holybomb_frames_l[0]
+                    self.mask = pygame.mask.from_surface(self.image)
+                elif self.current_gun == 3:
+                    self.image = self.baseball_frames_l[0]
+                    self.mask = pygame.mask.from_surface(self.image)
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
