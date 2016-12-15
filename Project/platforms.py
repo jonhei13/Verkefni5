@@ -12,7 +12,9 @@ from spritesheet_functions import SpriteSheet
 #   Width of sprite
 #   Height of sprite
 
-BIG_ISLAND = (630, 288, 650, 432)
+BIG_ISLAND_RIGHT = (630, 288, 650, 432)
+BIG_ISLAND_LEFT = (0, 191, 586, 529)
+SMALL_ISLAND = (988, 135, 239, 116)
 
 
 class Platform(pygame.sprite.Sprite):

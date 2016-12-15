@@ -33,6 +33,9 @@ class Worm(pygame.sprite.Sprite):
         self.jumping_frames_r = []
         self.jumping_frames_l = []
 
+        self.shooting_frames_r = []
+        self.shooting_frames_l = []
+
         # What direction is the player facing?
         self.direction = "R"
 
@@ -66,6 +69,15 @@ class Worm(pygame.sprite.Sprite):
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_r.append(image)
 
+        #Load players when holding a gun left
+        image = sprite_sheet.get_image(191, 49, 24, 27)
+        self.shooting_frames_l.append(image)
+
+        # Load players when holding a gun right
+        image = sprite_sheet.get_image(191, 49, 24, 27)
+        image = pygame.transform.flip(image, True, False)
+        self.shooting_frames_r.append(image)
+
         # Load player jumping left
         image = sprite_sheet.get_image(195, 5, 18, 33)  # jumping
         self.jumping_frames_l.append(image)
@@ -97,7 +109,7 @@ class Worm(pygame.sprite.Sprite):
                 self.image = self.jumping_frames_r[0]
                 self.mask = pygame.mask.from_surface(self.image)
             else:
-                self.image = self.walking_frames_r[frame]
+                self.image = self.shooting_frames_r[0]
                 self.mask = pygame.mask.from_surface(self.image)
         else:
             frame = (pos // 30) % len(self.walking_frames_l)
@@ -105,7 +117,7 @@ class Worm(pygame.sprite.Sprite):
                 self.image = self.jumping_frames_l[0]
                 self.mask = pygame.mask.from_surface(self.image)
             else:
-                self.image = self.walking_frames_l[frame]
+                self.image = self.shooting_frames_l[0]
                 self.mask = pygame.mask.from_surface(self.image)
 
         # See if we hit anything

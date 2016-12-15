@@ -37,7 +37,9 @@ class LandScape01(Landscape):
         #self.rect = self.image.get_rect()
         self.worm = worm
 
-        level = [[platforms.BIG_ISLAND, 630, 200]]
+        level = [[platforms.BIG_ISLAND_RIGHT, 630, 720-432],
+                 [platforms.BIG_ISLAND_LEFT, 0, 720-529],
+                 [platforms.SMALL_ISLAND, 988, 135]]
 
         # Go through the array above and add platforms
         for platform in level:
