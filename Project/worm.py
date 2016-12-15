@@ -109,12 +109,12 @@ class Worm(pygame.sprite.Sprite):
         for block in block_hit_list:
             # If we are moving right,
             # set our right side to the left side of the item we hit
-            self.change_y = 0
-            if self.change_x > 0:
-                self.rect.right = block.rect.left
-            elif self.change_x < 0:
-                # Otherwise if we are moving left, do the opposite.
-                self.rect.left = block.rect.right
+            self.change_x = 0
+            # if self.change_x > 0:
+            #     self.rect.right = block.rect.left
+            # elif self.change_x < 0:
+            #     # Otherwise if we are moving left, do the opposite.
+            #     self.rect.left = block.rect.right
 
         # Move up/down
         self.rect.y += self.change_y
@@ -124,10 +124,10 @@ class Worm(pygame.sprite.Sprite):
         for block in block_hit_list:
             self.change_y = 0
             # Reset our position based on the top/bottom of the object.
-            if self.change_y > 0:
-                self.rect.bottom = block.rect.top
-            elif self.change_y < 0:
-                self.rect.top = block.rect.bottom
+            # if self.change_y > 0:
+            #     self.rect.bottom = block.rect.top
+            # elif self.change_y < 0:
+            #     self.rect.top = block.rect.bottom
 
             # Stop our vertical movement
             self.change_y = 0
@@ -144,10 +144,10 @@ class Worm(pygame.sprite.Sprite):
             self.change_y += .35
 
         # See if we are on the ground.
-        if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
-            self.change_y = 0
-            self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
-            self.jumping = False
+        # if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
+        #     self.change_y = 0
+        #     self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
+        #     self.jumping = False
 
     def jump(self):
         """ Called when user hits 'jump' button. """
