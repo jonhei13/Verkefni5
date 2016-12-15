@@ -12,7 +12,6 @@ from spritesheet_functions import SpriteSheet
 #   Width of sprite
 #   Height of sprite
 
-SMALL_ISLAND = (988, 135, 239, 116)
 BIG_ISLAND = (630, 288, 650, 432)
 
 

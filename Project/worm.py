@@ -109,7 +109,7 @@ class Worm(pygame.sprite.Sprite):
         for block in block_hit_list:
             # If we are moving right,
             # set our right side to the left side of the item we hit
-
+            self.change_y = 0
             if self.change_x > 0:
                 self.rect.right = block.rect.left
             elif self.change_x < 0:
