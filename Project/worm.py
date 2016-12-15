@@ -89,11 +89,11 @@ class Worm(pygame.sprite.Sprite):
 
         # Load players when holding a grenade right
         image = sprite_sheet.get_image(705, 126, 35, 40)
+        image = pygame.transform.flip(image, True, False)
         self.grenade_frames_r.append(image)
 
         # Load players when holding a grenade left
         image = sprite_sheet.get_image(705, 126, 35, 40)
-        image = pygame.transform.flip(image, True, False)
         self.grenade_frames_l.append(image)
 
         # Load player jumping left
