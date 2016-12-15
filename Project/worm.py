@@ -17,10 +17,9 @@ class Worm(pygame.sprite.Sprite):
     controls. """
 
     # -- Methods
-    def __init__(self, cg):
+    def __init__(self):
         """ Constructor function """
 
-        self.current_gun = cg
         # Call the parent's constructor
         super().__init__()
 
@@ -28,6 +27,12 @@ class Worm(pygame.sprite.Sprite):
         # Set speed vector of player
         self.change_x = 0
         self.change_y = 0
+
+        # Player attributes
+        self.life = 100
+        self.name = ''
+        self.team = ''
+        self.current_gun = 0
 
         # This holds all the images for the animated walk left/right
         # of our player
@@ -141,7 +146,7 @@ class Worm(pygame.sprite.Sprite):
         """ Move the player. """
         # Gravity
         self.calc_grav()
-        print(self.current_gun)
+
         # Move left/right
         if self.jumping:
             self.rect.x += self.change_x
@@ -182,6 +187,7 @@ class Worm(pygame.sprite.Sprite):
                 elif self.current_gun == 3:
                     self.image = self.baseball_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
+
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:

@@ -8,10 +8,10 @@ from Project import LandScape
 from Project import worm
 from Project import constants
 from Project import GunMenu
-from Project import  aim
+from Project import aim
+import GameMenu
 
-
-def main():
+def main(team_blue, team_red):
     pygame.init()
     screen_x = constants.SCREEN_WIDTH
     screen_y = constants.SCREEN_HEIGHT
@@ -24,35 +24,38 @@ def main():
     img = g_menu.choose_gun(0)
 
     player_list = []
-    player = worm.Worm(g_menu.get_chosen())
-    player2 = worm.Worm(g_menu.get_chosen())
-    player3 = worm.Worm(g_menu.get_chosen())
 
-    player_list.append(player)
-    player_list.append(player2)
-    player_list.append(player3)
+    for p in team_blue:
+        player = worm.Worm()
+        player.team = 'BLUE'
+        player.name = p
+        player_list.insert(random.randint(0, len(team_blue)), player)
 
-    current_level = LandScape.LandScape01(player)
+    for p in team_red:
+        player = worm.Worm()
+        player.team = 'RED'
+        player.name = p
+        player_list.insert(random.randint(0, len(team_red)), player)
 
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
     for man in player_list:
+        current_level = LandScape.LandScape01(man)
         man.rect.x = random.randint(700, 950)
-        man.rect.y = 50 - player.rect.height
+        man.rect.y = 50 - man.rect.height
         man.level = current_level
-        man.aim = aim.Aim(player)
-
+        man.aim = aim.Aim(man)
         active_sprite_list.add(man)
         active_sprite_list.add(man.aim)
 
     clock = pygame.time.Clock()
     player = player_list.pop()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
 
         active_sprite_list.update()
         current_level.update()
@@ -87,18 +90,18 @@ def main():
                 sleep(0.2)
                 player_list.insert(0, player)
                 player = player_list.pop()
-                print('BOOM')
+                print('BOOM - It is: ', player.name + "'s"', Turn')
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
 
-        screen.blit(img, (constants.SCREEN_WIDTH-img.get_width(), constants.SCREEN_HEIGHT-img.get_height()))
+        screen.blit(img, (screen_x-img.get_width(), screen_y-img.get_height()))
 
         pygame.display.flip()
 
         clock.tick(60)
 
 if __name__ == "__main__":
-    main()
+    GameMenu.game_menu()
