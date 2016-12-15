@@ -1,9 +1,9 @@
 import pygame
-from Project import spritesheet_functions
-from Project import constants
-from Project import platforms
+from spritesheet_functions import SpriteSheet
+import constants
+import platforms
 
-from Project import Worms
+import Worms
 SCREEN_HEIGHT = constants.SCREEN_HEIGHT
 SCREEN_WIDTH = constants.SCREEN_WIDTH
 class Landscape(pygame.sprite.Sprite):

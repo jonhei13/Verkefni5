@@ -1,6 +1,6 @@
 import pygame
 import sys
-from Project import constants as c
+import constants as c
 from time import sleep
 import TheGame
 
