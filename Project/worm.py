@@ -8,6 +8,8 @@ import constants
 
 from spritesheet_functions import SpriteSheet
 
+from aim import Aim
+
 
 class Worm(pygame.sprite.Sprite):
     """ This class represents the bar at the bottom that the player
@@ -47,6 +49,9 @@ class Worm(pygame.sprite.Sprite):
 
         # List of sprites we can bump against
         self.level = None
+
+        #Our aim
+        self.aim = None
 
         sprite_sheet = SpriteSheet("Pics/worms_sprites.png")
         # Load all the right facing images into a list

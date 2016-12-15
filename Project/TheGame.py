@@ -6,6 +6,7 @@ from Project import LandScape
 from Project import worm
 from Project import constants
 from Project import GunMenu
+from Project import  aim
 
 
 def main():
@@ -30,8 +31,10 @@ def main():
     player.rect.x = 950
     player.rect.y = 50 - player.rect.height
     player.level = current_level
+    player.aim = aim.Aim(player)
 
     active_sprite_list.add(player)
+    active_sprite_list.add(player.aim)
 
     clock = pygame.time.Clock()
 
@@ -54,6 +57,10 @@ def main():
             if event.key == pygame.K_SPACE:
                 player.jumping = True
                 player.jump()
+            if event.key == pygame.K_UP:
+                player.aim.go_up()
+            if event.key == pygame.K_DOWN:
+                player.aim.go_down()
             if event.key == pygame.K_1:
                 img = g_menu.choose_gun(0)
             if event.key == pygame.K_2:
