@@ -15,6 +15,9 @@ class GunMenu:
         self.chosen = get_image
         return self.img_list[get_image]
 
+    def get_chosen(self):
+        return self.chosen
+
 
 
 

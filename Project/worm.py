@@ -3,8 +3,9 @@ This module is used to hold the Player class. The Player represents the user-
 controlled sprite on the screen.
 """
 import pygame
-
+import GunMenu
 import constants
+
 
 from spritesheet_functions import SpriteSheet
 
@@ -16,9 +17,10 @@ class Worm(pygame.sprite.Sprite):
     controls. """
 
     # -- Methods
-    def __init__(self):
+    def __init__(self, cg):
         """ Constructor function """
 
+        self.current_gun = cg
         # Call the parent's constructor
         super().__init__()
 
@@ -38,6 +40,8 @@ class Worm(pygame.sprite.Sprite):
         self.shooting_frames_r = []
         self.shooting_frames_l = []
 
+        self.grenade_frames_r = []
+        self.grenade_frames_l = []
         # What direction is the player facing?
         self.direction = "R"
 
@@ -74,7 +78,7 @@ class Worm(pygame.sprite.Sprite):
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_r.append(image)
 
-        #Load players when holding a gun left
+        # Load players when holding a gun left
         image = sprite_sheet.get_image(191, 49, 24, 27)
         self.shooting_frames_l.append(image)
 
@@ -82,6 +86,15 @@ class Worm(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(191, 49, 24, 27)
         image = pygame.transform.flip(image, True, False)
         self.shooting_frames_r.append(image)
+
+        # Load players when holding a grenade right
+        image = sprite_sheet.get_image(705, 126, 35, 40)
+        self.grenade_frames_r.append(image)
+
+        # Load players when holding a grenade left
+        image = sprite_sheet.get_image(705, 126, 35, 40)
+        image = pygame.transform.flip(image, True, False)
+        self.grenade_frames_l.append(image)
 
         # Load player jumping left
         image = sprite_sheet.get_image(195, 5, 18, 33)  # jumping
@@ -103,27 +116,35 @@ class Worm(pygame.sprite.Sprite):
         """ Move the player. """
         # Gravity
         self.calc_grav()
-
+        print(self.current_gun)
         # Move left/right
-        if(self.jumping):
+        if self.jumping:
             self.rect.x += self.change_x
         pos = self.rect.x #+ self.level.world_shift
         if self.direction == "R":
             frame = (pos // 30) % len(self.walking_frames_r)
             if self.jumping:
-                self.image = self.jumping_frames_r[0]
-                self.mask = pygame.mask.from_surface(self.image)
+                    self.image = self.jumping_frames_r[0]
+                    self.mask = pygame.mask.from_surface(self.image)
             else:
-                self.image = self.shooting_frames_r[0]
-                self.mask = pygame.mask.from_surface(self.image)
+                if self.current_gun == 0:
+                    self.image = self.shooting_frames_r[0]
+                    self.mask = pygame.mask.from_surface(self.image)
+                elif self.current_gun == 1:
+                    self.image = self.grenade_frames_r[0]
+                    self.mask = pygame.mask.from_surface(self.image)
         else:
             frame = (pos // 30) % len(self.walking_frames_l)
             if self.jumping:
                 self.image = self.jumping_frames_l[0]
                 self.mask = pygame.mask.from_surface(self.image)
             else:
-                self.image = self.shooting_frames_l[0]
-                self.mask = pygame.mask.from_surface(self.image)
+                if self.current_gun == 0:
+                    self.image = self.shooting_frames_l[0]
+                    self.mask = pygame.mask.from_surface(self.image)
+                elif self.current_gun == 1:
+                    self.image = self.grenade_frames_l[0]
+                    self.mask = pygame.mask.from_surface(self.image)
 
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)

@@ -17,13 +17,16 @@ def main():
     screen = pygame.display.set_mode((screen_x, screen_y))
     pygame.display.set_caption("Ormstunga")
 
-    player = worm.Worm()
-
-    current_level = LandScape.LandScape01(player)
-
     # Starting weapon of choice
     g_menu = GunMenu.GunMenu()
     img = g_menu.choose_gun(0)
+
+    player = worm.Worm(g_menu.get_chosen())
+
+    current_level = LandScape.LandScape01(player)
+
+
+
     #background = pygame.Surface(screen.get_size())
 
     active_sprite_list = pygame.sprite.Group()
@@ -63,18 +66,22 @@ def main():
                 player.aim.go_down()
             if event.key == pygame.K_1:
                 img = g_menu.choose_gun(0)
+                player.current_gun = 0
             if event.key == pygame.K_2:
                 img = g_menu.choose_gun(1)
+                player.current_gun = 1
             if event.key == pygame.K_3:
                 img = g_menu.choose_gun(2)
+                player.current_gun = 2
             if event.key == pygame.K_4:
                 img = g_menu.choose_gun(3)
+                player.current_gun = 3
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
-        print(g_menu.chosen)
+
         screen.blit(img, (constants.SCREEN_WIDTH-img.get_width(), constants.SCREEN_HEIGHT-img.get_height()))
 
         pygame.display.flip()
