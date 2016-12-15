@@ -97,6 +97,9 @@ def main(team_blue, team_red):
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
 
+        if int(player.rect.y) > screen_y:
+            pass  # TODO: Remove dead players from screen and where they don't belong
+
         screen.blit(img, (screen_x-img.get_width(), screen_y-img.get_height()))
 
         pygame.display.flip()
