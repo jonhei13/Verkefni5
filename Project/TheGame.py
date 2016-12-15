@@ -5,6 +5,8 @@ import sys
 from Project import LandScape
 from Project import worm
 from Project import constants
+from Project import GunMenu
+
 
 def main():
     pygame.init()
@@ -18,6 +20,9 @@ def main():
 
     current_level = LandScape.LandScape01(player)
 
+    # Starting weapon of choice
+    g_menu = GunMenu.GunMenu()
+    img = g_menu.choose_gun(0)
     #background = pygame.Surface(screen.get_size())
 
     active_sprite_list = pygame.sprite.Group()
@@ -36,6 +41,11 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+        active_sprite_list.update()
+        current_level.update()
+        current_level.draw(screen)
+        active_sprite_list.draw(screen)
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 player.go_left()
@@ -44,18 +54,21 @@ def main():
             if event.key == pygame.K_UP:
                 player.jumping = True
                 player.jump()
+            if event.key == pygame.K_1:
+                img = g_menu.choose_gun(0)
+            if event.key == pygame.K_2:
+                img = g_menu.choose_gun(1)
+            if event.key == pygame.K_3:
+                img = g_menu.choose_gun(2)
+            if event.key == pygame.K_4:
+                img = g_menu.choose_gun(3)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
-
-        active_sprite_list.update()
-
-        current_level.update()
-
-        current_level.draw(screen)
-        active_sprite_list.draw(screen)
+        print(g_menu.chosen)
+        screen.blit(img, (constants.SCREEN_WIDTH-img.get_width(), constants.SCREEN_HEIGHT-img.get_height()))
 
         pygame.display.flip()
 
