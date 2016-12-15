@@ -39,6 +39,9 @@ class Worm(pygame.sprite.Sprite):
         # Is player jumping?
         self.jumping = False
 
+        #Are we on a block
+        self.onblock = False
+
         # List of sprites we can bump against
         self.level = None
 
@@ -107,6 +110,7 @@ class Worm(pygame.sprite.Sprite):
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
+            self.onblock = True
             # If we are moving right,
             # set our right side to the left side of the item we hit
             self.change_x = 0
@@ -121,13 +125,14 @@ class Worm(pygame.sprite.Sprite):
 
         # Check and see if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
-        for block in block_hit_list:
+        for blokc in block_hit_list:
             self.change_y = 0
-            # Reset our position based on the top/bottom of the object.
-            # if self.change_y > 0:
-            #     self.rect.bottom = block.rect.top
-            # elif self.change_y < 0:
-            #     self.rect.top = block.rect.bottom
+            self.onblock = True
+            #Reset our position based on the top/bottom of the object.
+            if self.change_y > 0:
+                self.rect.bottom = block.mask.top
+            elif self.change_y < 0:
+                self.rect.top = block.rect.bottom
 
             # Stop our vertical movement
             self.change_y = 0
@@ -138,10 +143,11 @@ class Worm(pygame.sprite.Sprite):
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
-        if self.change_y == 0:
-            self.change_y = 1
-        else:
-            self.change_y += .35
+        if not self.onblock:
+            if self.change_y == 0:
+                self.change_y = 1
+            else:
+                self.change_y += .35
 
         # See if we are on the ground.
         # if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
@@ -151,7 +157,7 @@ class Worm(pygame.sprite.Sprite):
 
     def jump(self):
         """ Called when user hits 'jump' button. """
-
+        self.onblock = False
         # move down a bit and see if there is a platform below us.
         # Move down 2 pixels because it doesn't work well if we only move down 1
         # when working with a platform moving down.
@@ -172,12 +178,15 @@ class Worm(pygame.sprite.Sprite):
         """ Called when the user hits the left arrow. """
         self.change_x = -6
         self.direction = "L"
+        self.onblock = False
 
     def go_right(self):
         """ Called when the user hits the right arrow. """
         self.change_x = 6
         self.direction = "R"
+        self.onblock = False
 
     def stop(self):
         """ Called when the user lets off the keyboard. """
         self.change_x = 0
+        self.onblock = False
