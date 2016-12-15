@@ -145,7 +145,8 @@ def game_menu():
         # Play button
         if button(pb, 600, 300, 90, 50):
             screen.blit(pb_p, (600, 304))
-            return blue_list, red_list
+            if len(blue_list) > 1 and len(red_list) > 1:
+                return blue_list, red_list
 
         # Removing player from team
         if 300 > mouse[0] > 130:
