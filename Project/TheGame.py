@@ -4,11 +4,11 @@ import pygame
 import sys
 import random
 from time import sleep
-from Project import LandScape
-from Project import worm
-from Project import constants
-from Project import GunMenu
-from Project import aim
+import LandScape
+import worm
+import constants
+import GunMenu
+import  aim
 import GameMenu
 
 def main(team_blue, team_red):
