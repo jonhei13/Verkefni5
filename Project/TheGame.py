@@ -22,9 +22,8 @@ def main():
 
     active_sprite_list = pygame.sprite.Group()
 
-
-    player.rect.x = 150
-    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
+    player.rect.x = 950
+    player.rect.y = 50 - player.rect.height
     player.level = current_level
 
     active_sprite_list.add(player)

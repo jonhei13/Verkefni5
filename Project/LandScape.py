@@ -22,21 +22,23 @@ class Landscape(pygame.sprite.Sprite):
         #background = pygame.Surface(screen.get_size())
 
     def draw(self, screen):
-        screen.fill(constants.BLACK)
-        screen.blit(self.image, self.rect)
+        screen.fill(constants.BLUE)
+        #screen.blit(self.image, self.rect)
         self.platform_list.draw(screen)
 
 
 
 class LandScape01(Landscape):
     def __init__(self, worm):
-        MainImage = spritesheet_functions.SpriteSheet('Pics/Untitled.png')
-        self.image = MainImage.get_image(0, 0, 1280, 720)
+        #self.image = pygame.image.load('Pics/Untitled.png').convert_alpha()
+        # self.image = MainImage.get_image(0, 0, 1280, 720)
+        #self.mask = pygame.mask.from_surface(self.image)
         self.platform_list = pygame.sprite.Group()
-        self.rect = self.image.get_rect()
+        #self.rect = self.image.get_rect()
         self.worm = worm
 
-        level = [[platforms.SMALL_ISLAND, 500, 600],]
+        level = [[platforms.SMALL_ISLAND, 988, 135],
+                 [platforms.BIG_ISLAND, 630, 200]]
 
         # Go through the array above and add platforms
         for platform in level:

@@ -3,9 +3,10 @@ This module is used to hold the Player class. The Player represents the user-
 controlled sprite on the screen.
 """
 import pygame
-from Project import LandScape
-from Project import constants
-from Project import spritesheet_functions
+
+import constants
+
+from spritesheet_functions import SpriteSheet
 
 
 class Worm(pygame.sprite.Sprite):
@@ -41,7 +42,7 @@ class Worm(pygame.sprite.Sprite):
         # List of sprites we can bump against
         self.level = None
 
-        sprite_sheet = spritesheet_functions.SpriteSheet("Pics/worms_sprites.png")
+        sprite_sheet = SpriteSheet("Pics/worms_sprites.png")
         # Load all the right facing images into a list
         image = sprite_sheet.get_image(8, 8, 22, 26)  # efst til vinstri
         self.walking_frames_l.append(image)
@@ -73,6 +74,7 @@ class Worm(pygame.sprite.Sprite):
 
         # Set the image the player starts with
         self.image = self.walking_frames_r[0]
+        self.mask = pygame.mask.from_surface(self.image)
 
         # Set a reference to the image rect.
         self.rect = self.image.get_rect()
@@ -84,22 +86,26 @@ class Worm(pygame.sprite.Sprite):
 
         # Move left/right
         self.rect.x += self.change_x
-        pos = self.rect.x
+        pos = self.rect.x #+ self.level.world_shift
         if self.direction == "R":
             frame = (pos // 30) % len(self.walking_frames_r)
             if self.jumping:
                 self.image = self.jumping_frames_r[0]
+                self.mask = pygame.mask.from_surface(self.image)
             else:
                 self.image = self.walking_frames_r[frame]
+                self.mask = pygame.mask.from_surface(self.image)
         else:
             frame = (pos // 30) % len(self.walking_frames_l)
             if self.jumping:
                 self.image = self.jumping_frames_l[0]
+                self.mask = pygame.mask.from_surface(self.image)
             else:
                 self.image = self.walking_frames_l[frame]
+                self.mask = pygame.mask.from_surface(self.image)
 
-        # # See if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list,False)
+        # See if we hit anything
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
             # If we are moving right,
             # set our right side to the left side of the item we hit
@@ -108,12 +114,12 @@ class Worm(pygame.sprite.Sprite):
             elif self.change_x < 0:
                 # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
-        #
-        # # Move up/down
-        # self.rect.y += self.change_y
-        #
-        # # Check and see if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+
+        # Move up/down
+        self.rect.y += self.change_y
+
+        # Check and see if we hit anything
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
 
             # Reset our position based on the top/bottom of the object.
@@ -126,8 +132,8 @@ class Worm(pygame.sprite.Sprite):
             self.change_y = 0
             self.jumping = False
 
-            if isinstance(block):
-                self.rect.x += block.change_x
+            #if isinstance(block, MovingPlatform):
+             #   self.rect.x += block.change_x
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
@@ -150,7 +156,8 @@ class Worm(pygame.sprite.Sprite):
         # when working with a platform moving down.
 
         self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
+                                                        pygame.sprite.collide_mask)
         self.rect.y -= 2
 
         # If it is ok to jump, set our speed upwards
