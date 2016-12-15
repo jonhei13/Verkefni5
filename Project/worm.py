@@ -88,7 +88,8 @@ class Worm(pygame.sprite.Sprite):
         self.calc_grav()
 
         # Move left/right
-        self.rect.x += self.change_x
+        if(self.jumping):
+            self.rect.x += self.change_x
         pos = self.rect.x #+ self.level.world_shift
         if self.direction == "R":
             frame = (pos // 30) % len(self.walking_frames_r)
@@ -113,12 +114,13 @@ class Worm(pygame.sprite.Sprite):
             self.onblock = True
             # If we are moving right,
             # set our right side to the left side of the item we hit
+            #self.change_x = 0
             self.change_x = 0
-            # if self.change_x > 0:
-            #     self.rect.right = block.rect.left
-            # elif self.change_x < 0:
-            #     # Otherwise if we are moving left, do the opposite.
-            #     self.rect.left = block.rect.right
+            if self.change_x > 0:
+                self.change_x = 0
+            elif self.change_x < 0:
+                # Otherwise if we are moving left, do the opposite.
+                self.change_x = 0
 
         # Move up/down
         self.rect.y += self.change_y
@@ -126,13 +128,13 @@ class Worm(pygame.sprite.Sprite):
         # Check and see if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for blokc in block_hit_list:
-            self.change_y = 0
+            #self.change_y = 0
             self.onblock = True
             #Reset our position based on the top/bottom of the object.
             if self.change_y > 0:
-                self.rect.bottom = block.mask.top
+                self.change_y = 0
             elif self.change_y < 0:
-                self.rect.top = block.rect.bottom
+                self.change_y = 0
 
             # Stop our vertical movement
             self.change_y = 0
@@ -168,23 +170,26 @@ class Worm(pygame.sprite.Sprite):
         self.rect.y -= 2
 
         # If it is ok to jump, set our speed upwards
-
         if len(platform_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
-            self.change_y = -10
-            self.jumping = True
+            self.change_y = -5
+            #self.jumping = True
 
     # Player-controlled movement:
     def go_left(self):
         """ Called when the user hits the left arrow. """
-        self.change_x = -6
         self.direction = "L"
-        self.onblock = False
+        if self.jumping:
+            self.change_x = -3
+
+            self.onblock = False
 
     def go_right(self):
         """ Called when the user hits the right arrow. """
-        self.change_x = 6
         self.direction = "R"
-        self.onblock = False
+        if self.jumping:
+            self.change_x = 3
+
+            self.onblock = False
 
     def stop(self):
         """ Called when the user lets off the keyboard. """

@@ -42,6 +42,7 @@ def main():
             if event.key == pygame.K_RIGHT:
                 player.go_right()
             if event.key == pygame.K_UP:
+                player.jumping = True
                 player.jump()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
