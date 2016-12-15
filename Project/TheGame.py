@@ -2,6 +2,8 @@ from cmath import rect
 
 import pygame
 import sys
+import random
+from time import sleep
 from Project import LandScape
 from Project import worm
 from Project import constants
@@ -21,31 +23,36 @@ def main():
     g_menu = GunMenu.GunMenu()
     img = g_menu.choose_gun(0)
 
+    player_list = []
     player = worm.Worm(g_menu.get_chosen())
+    player2 = worm.Worm(g_menu.get_chosen())
+    player3 = worm.Worm(g_menu.get_chosen())
+
+    player_list.append(player)
+    player_list.append(player2)
+    player_list.append(player3)
 
     current_level = LandScape.LandScape01(player)
 
-
-
-    #background = pygame.Surface(screen.get_size())
-
     active_sprite_list = pygame.sprite.Group()
+    #background = pygame.Surface(screen.get_size())
+    for man in player_list:
+        man.rect.x = random.randint(700, 950)
+        man.rect.y = 50 - player.rect.height
+        man.level = current_level
+        man.aim = aim.Aim(player)
 
-    player.rect.x = 950
-    player.rect.y = 50 - player.rect.height
-    player.level = current_level
-    player.aim = aim.Aim(player)
-
-    active_sprite_list.add(player)
-    active_sprite_list.add(player.aim)
+        active_sprite_list.add(man)
+        active_sprite_list.add(man.aim)
 
     clock = pygame.time.Clock()
-
+    player = player_list.pop()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
 
         active_sprite_list.update()
         current_level.update()
@@ -76,6 +83,11 @@ def main():
             if event.key == pygame.K_4:
                 img = g_menu.choose_gun(3)
                 player.current_gun = 3
+            if event.key == pygame.K_KP0:
+                sleep(0.2)
+                player_list.insert(0, player)
+                player = player_list.pop()
+                print('BOOM')
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
                 player.stop()
