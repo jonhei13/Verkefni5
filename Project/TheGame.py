@@ -8,8 +8,10 @@ import LandScape
 import worm
 import constants
 import GunMenu
-import  aim
+import aim
 import GameMenu
+import Team
+
 
 def main(team_blue, team_red):
     pygame.init()
@@ -24,6 +26,10 @@ def main(team_blue, team_red):
     img = g_menu.BAZOOKA
 
     player_list = []
+
+    red_team = Team.Team(team_red)
+    blue_team = Team.Team(team_blue)
+
 
     for p in team_blue:
         player = worm.Worm()
@@ -56,6 +62,8 @@ def main(team_blue, team_red):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+
 
         active_sprite_list.update()
         current_level.update()
