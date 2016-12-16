@@ -22,7 +22,6 @@ def main(team_blue, team_red):
     # Starting weapon of choice
     g_menu = GunMenu.GunMenu
     img = g_menu.BAZOOKA
-    print(img.BAZOOKA.value.get_width)
 
     player_list = []
 
@@ -102,7 +101,7 @@ def main(team_blue, team_red):
             pass  # TODO: Remove dead players from screen and where they don't belong
 
 
-        screen.blit(img.value, (img.value.get_width(), img.value.get_height()))
+        screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
         pygame.display.flip()
 
