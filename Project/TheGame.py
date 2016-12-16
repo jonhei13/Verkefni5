@@ -30,7 +30,6 @@ def main(team_blue, team_red):
     red_team = Team.Team(team_red)
     blue_team = Team.Team(team_blue)
 
-
     for p in team_blue:
         player = worm.Worm()
         player.team = 'BLUE'
