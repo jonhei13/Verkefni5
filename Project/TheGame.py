@@ -4,11 +4,11 @@ import pygame
 import sys
 import random
 from time import sleep
-from Project import LandScape
-from Project import worm
-from Project import constants
-from Project import GunMenu
-from Project import aim
+import LandScape
+import worm
+import constants
+import GunMenu
+import  aim
 import GameMenu
 
 def main(team_blue, team_red):
@@ -20,8 +20,8 @@ def main(team_blue, team_red):
     pygame.display.set_caption("Ormstunga")
 
     # Starting weapon of choice
-    g_menu = GunMenu.GunMenu()
-    img = g_menu.choose_gun(0)
+    g_menu = GunMenu.GunMenu
+    img = g_menu.BAZOOKA
 
     player_list = []
 
@@ -75,16 +75,16 @@ def main(team_blue, team_red):
             if event.key == pygame.K_DOWN:
                 player.aim.go_down()
             if event.key == pygame.K_1:
-                img = g_menu.choose_gun(0)
+                img = g_menu.BAZOOKA
                 player.current_gun = 0
             if event.key == pygame.K_2:
-                img = g_menu.choose_gun(1)
+                img = g_menu.GRENADE
                 player.current_gun = 1
             if event.key == pygame.K_3:
-                img = g_menu.choose_gun(2)
+                img = g_menu.HOLYBOMB
                 player.current_gun = 2
             if event.key == pygame.K_4:
-                img = g_menu.choose_gun(3)
+                img = g_menu.CLUB
                 player.current_gun = 3
             if event.key == pygame.K_KP0:
                 sleep(0.2)
@@ -97,8 +97,11 @@ def main(team_blue, team_red):
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
 
-        print(player.current_gun)
-        screen.blit(img, (screen_x-img.get_width(), screen_y-img.get_height()))
+        if int(player.rect.y) > screen_y:
+            pass  # TODO: Remove dead players from screen and where they don't belong
+
+
+        screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
         pygame.display.flip()
 

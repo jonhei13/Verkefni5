@@ -3,7 +3,7 @@ This module is used to pull individual sprites from sprite sheets.
 """
 import pygame
 
-from Project import constants
+import constants
 
 
 class SpriteSheet(object):
