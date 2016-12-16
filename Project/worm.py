@@ -5,6 +5,7 @@ controlled sprite on the screen.
 import pygame
 import GunMenu
 import constants
+from GunMenu import GunMenu
 
 
 from spritesheet_functions import SpriteSheet
@@ -32,7 +33,7 @@ class Worm(pygame.sprite.Sprite):
         self.life = 100
         self.name = ''
         self.team = ''
-        self.current_gun = 0
+        self.current_gun = GunMenu.GRENADE
 
         # This holds all the images for the animated walk left/right
         # of our player
@@ -157,16 +158,16 @@ class Worm(pygame.sprite.Sprite):
                     self.image = self.jumping_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
             else:
-                if self.current_gun == 0:
+                if self.current_gun == GunMenu.BAZOOKA:
                     self.image = self.shooting_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 1:
+                elif self.current_gun == GunMenu.GRENADE:
                     self.image = self.grenade_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 2:
+                elif self.current_gun == GunMenu.HOLYBOMB:
                     self.image = self.holybomb_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 3:
+                elif self.current_gun == GunMenu.CLUB:
                     self.image = self.baseball_frames_r[0]
                     self.mask = pygame.mask.from_surface(self.image)
         else:
@@ -175,16 +176,16 @@ class Worm(pygame.sprite.Sprite):
                 self.image = self.jumping_frames_l[0]
                 self.mask = pygame.mask.from_surface(self.image)
             else:
-                if self.current_gun == 0:
+                if self.current_gun == GunMenu.BAZOOKA:
                     self.image = self.shooting_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 1:
+                elif self.current_gun == GunMenu.GRENADE:
                     self.image = self.grenade_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 2:
+                elif self.current_gun == GunMenu.HOLYBOMB:
                     self.image = self.holybomb_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
-                elif self.current_gun == 3:
+                elif self.current_gun == GunMenu.CLUB:
                     self.image = self.baseball_frames_l[0]
                     self.mask = pygame.mask.from_surface(self.image)
 

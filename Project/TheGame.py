@@ -83,16 +83,16 @@ def main(team_blue, team_red):
                 player.aim.go_down()
             if event.key == pygame.K_1:
                 img = g_menu.BAZOOKA
-                player.current_gun = 0
+                player.current_gun = g_menu.BAZOOKA
             if event.key == pygame.K_2:
                 img = g_menu.GRENADE
-                player.current_gun = 1
+                player.current_gun = g_menu.GRENADE
             if event.key == pygame.K_3:
                 img = g_menu.HOLYBOMB
-                player.current_gun = 2
+                player.current_gun = g_menu.HOLYBOMB
             if event.key == pygame.K_4:
                 img = g_menu.CLUB
-                player.current_gun = 3
+                player.current_gun = g_menu.CLUB
             if event.key == pygame.K_KP0:
                 sleep(0.2)
                 player_list.insert(0, player)
