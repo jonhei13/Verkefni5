@@ -1,5 +1,5 @@
 class Team:
-    members = []
+
     def __init__(self, team_list):
         self.members = team_list
         self.team_health = 0
