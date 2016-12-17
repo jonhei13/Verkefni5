@@ -13,8 +13,16 @@ import GameMenu
 import Team
 
 
+#####
+#player turn time
+turntime = 20
+
+
+
 def main(team_blue, team_red):
     pygame.init()
+    myfont = pygame.font.SysFont("monospace", 25)
+
     screen_x = constants.SCREEN_WIDTH
     screen_y = constants.SCREEN_HEIGHT
 
@@ -55,6 +63,7 @@ def main(team_blue, team_red):
 
     clock = pygame.time.Clock()
     player = player_list.pop()
+    player.start_time = pygame.time.get_ticks()
 
     while True:
         for event in pygame.event.get():
@@ -68,6 +77,10 @@ def main(team_blue, team_red):
         current_level.update()
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+
+        #print players time
+        label = myfont.render(str(int(player.time)), 2, (255, 0, 0))
+        screen.blit(label, (player.rect.x+5, player.rect.y - 20))
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -98,15 +111,23 @@ def main(team_blue, team_red):
                 player_list.insert(0, player)
                 player = player_list.pop()
                 print('BOOM - It is: ', player.name + "'s"', Turn')
+                player.start_time = pygame.time.get_ticks()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
+        print(player.time)
+        #Stop if player time is over
+        player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
+        if player.time <= 0:
+            player_list.insert(0, player)
+            player = player_list.pop()
+            print('BOOM - It is: ', player.name + "'s"', Turn')
+            player.start_time = pygame.time.get_ticks()
 
         if int(player.rect.y) > screen_y:
             pass  # TODO: Remove dead players from screen and where they don't belong
-
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 

@@ -70,6 +70,12 @@ class Worm(pygame.sprite.Sprite):
         #Our aim
         self.aim = None
 
+        #current time left
+        self.time = 30
+        self.start_time = 0
+
+
+
         sprite_sheet = SpriteSheet("Pics/worms_sprites.png")
         # Load all the right facing images into a list
         image = sprite_sheet.get_image(8, 8, 22, 26)  # efst til vinstri
@@ -221,6 +227,8 @@ class Worm(pygame.sprite.Sprite):
             self.change_y = 0
             self.jumping = False
 
+        #update our timer
+        # self.time -= (pygame.time.get_ticks() - self.start_time) / 1000
             #if isinstance(block, MovingPlatform):
              #   self.rect.x += block.change_x
 
