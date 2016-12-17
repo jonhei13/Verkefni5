@@ -146,6 +146,9 @@ def main(team_blue, team_red):
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
                     sleep(0.2)
+                    player.bullet = Bullets.Bullet(player)
+                    player.bullet.shooting = True
+                    active_sprite_list.add(player.bullet)
                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
                     team_played = not team_played
                     player.start_time = pygame.time.get_ticks()

@@ -50,9 +50,11 @@ class Bullet(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-
-        self.rect.x = self.worm.rect.x
-        self.rect.y = self.worm.rect.y + 5
+        if self.direction == 'R':
+            self.rect.x = self.worm.rect.x + 10
+        else:
+            self.rect.x = self.worm.rect.x - 10
+        self.rect.y = self.worm.rect.y
 
         # Load all the right facing images
         self.bulletframe_r = self.image
