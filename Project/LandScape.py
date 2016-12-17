@@ -6,6 +6,8 @@ import platforms
 import Worms
 SCREEN_HEIGHT = constants.SCREEN_HEIGHT
 SCREEN_WIDTH = constants.SCREEN_WIDTH
+
+
 class Landscape(pygame.sprite.Sprite):
     def __init__(self, worm):
         pygame.sprite.Sprite.__init__(self, )

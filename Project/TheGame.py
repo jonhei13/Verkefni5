@@ -11,7 +11,7 @@ import GunMenu
 import aim
 import GameMenu
 import Team
-
+import Bullets
 
 #####
 #player turn time
@@ -129,8 +129,13 @@ def main(team_blue, team_red):
             if event.key == pygame.K_4:
                 img = g_menu.CLUB
                 player.current_gun = g_menu.CLUB
+            #shoot on keypad 0
             if event.key == pygame.K_KP0:
                 sleep(0.2)
+                player.bullet = Bullets.Bullet(player)
+                player.bullet.shoot()
+                active_sprite_list.add(player.bullet)
+
                 player_list.insert(0, player)
                 player = player_list.pop()
                 print('BOOM - It is: ', player.name + "'s"', Turn')

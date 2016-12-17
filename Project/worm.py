@@ -74,6 +74,9 @@ class Worm(pygame.sprite.Sprite):
         self.time = 30
         self.start_time = 0
 
+        #our bullet
+        self.bullet = None
+
 
 
         sprite_sheet = SpriteSheet("Pics/worms_sprites.png")
