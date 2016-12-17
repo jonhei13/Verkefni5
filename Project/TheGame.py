@@ -68,8 +68,8 @@ def main(team_blue, team_red):
 
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
+    current_level = LandScape.LandScape01(player_list)
     for man in player_list:
-        current_level = LandScape.LandScape01(man)
         man.rect.x = random.randint(700, 950)
         man.rect.y = 50 - man.rect.height
         man.level = current_level
