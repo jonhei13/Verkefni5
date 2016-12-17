@@ -38,7 +38,9 @@ def main(team_blue, team_red):
 
     screen = pygame.display.set_mode((screen_x, screen_y))
     pygame.display.set_caption("Ormstunga")
-
+    won = False
+    RedWin = False
+    BlueWin = False
     # Starting weapon of choice
     g_menu = GunMenu.GunMenu
     img = g_menu.BAZOOKA
@@ -62,6 +64,8 @@ def main(team_blue, team_red):
 
     red_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_red_logo.png'), (100, 24))
     blue_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_blue_logo.png'), (100, 24))
+    red_team_wins = pygame.transform.scale(pygame.image.load('Pics/rtw.png'), (700, 500))
+    blue_team_wins = pygame.transform.scale(pygame.image.load('Pics/btw.png'), (700, 500))
 
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
@@ -111,72 +115,83 @@ def main(team_blue, team_red):
         for players in player_list:
             health = health_font.render(str(players.life), 2, (255, 0, 0))
             screen.blit(health, (players.rect.x, players.rect.y - 20))
+        if not won:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    player.go_left()
+                if event.key == pygame.K_RIGHT:
+                    player.go_right()
+                if event.key == pygame.K_SPACE:
+                    player.jumping = True
+                    player.jump()
+                if event.key == pygame.K_UP:
+                    player.aim.go_up()
+                if event.key == pygame.K_DOWN:
+                    player.aim.go_down()
+                if event.key == pygame.K_1:
+                    img = g_menu.BAZOOKA
+                    player.current_gun = g_menu.BAZOOKA
+                if event.key == pygame.K_2:
+                    img = g_menu.GRENADE
+                    player.current_gun = g_menu.GRENADE
+                if event.key == pygame.K_3:
+                    img = g_menu.HOLYBOMB
+                    player.current_gun = g_menu.HOLYBOMB
+                if event.key == pygame.K_4:
+                    img = g_menu.CLUB
+                    player.current_gun = g_menu.CLUB
+                #shoot on keypad 0 down
+                if event.key == pygame.K_KP0:
+                    sleep(0.2)
+                    if len(already_played) == len(player_list):
+                        already_played.clear()
+                    player.bullet = Bullets.Bullet(player)
+                    player.bullet.shoot()
+                    active_sprite_list.add(player.bullet)
+                    player = get_next_player(player, player_list, already_played)
+                    already_played.insert(0, player)
+                    player.start_time = pygame.time.get_ticks()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT and player.change_x < 0:
+                    player.stop()
+                if event.key == pygame.K_RIGHT and player.change_x > 0:
+                    player.stop()
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                player.go_left()
-            if event.key == pygame.K_RIGHT:
-                player.go_right()
-            if event.key == pygame.K_SPACE:
-                player.jumping = True
-                player.jump()
-            if event.key == pygame.K_UP:
-                player.aim.go_up()
-            if event.key == pygame.K_DOWN:
-                player.aim.go_down()
-            if event.key == pygame.K_1:
-                img = g_menu.BAZOOKA
-                player.current_gun = g_menu.BAZOOKA
-            if event.key == pygame.K_2:
-                img = g_menu.GRENADE
-                player.current_gun = g_menu.GRENADE
-            if event.key == pygame.K_3:
-                img = g_menu.HOLYBOMB
-                player.current_gun = g_menu.HOLYBOMB
-            if event.key == pygame.K_4:
-                img = g_menu.CLUB
-                player.current_gun = g_menu.CLUB
-            #shoot on keypad 0 down
-            if event.key == pygame.K_KP0:
-                sleep(0.2)
+            #Stop if player time is over
+            player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
+            if player.time <= 0:
                 if len(already_played) == len(player_list):
                     already_played.clear()
-                player.bullet = Bullets.Bullet(player)
-                player.bullet.shoot()
-                active_sprite_list.add(player.bullet)
                 player = get_next_player(player, player_list, already_played)
                 already_played.insert(0, player)
                 player.start_time = pygame.time.get_ticks()
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT and player.change_x < 0:
-                player.stop()
-            if event.key == pygame.K_RIGHT and player.change_x > 0:
-                player.stop()
 
-        #Stop if player time is over
-        player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
-        if player.time <= 0:
-            if len(already_played) == len(player_list):
-                already_played.clear()
-            player = get_next_player(player, player_list, already_played)
-            already_played.insert(0, player)
-            player.start_time = pygame.time.get_ticks()
-
-        if int(player.rect.y) > screen_y or player.life == 0:
-            player.is_dead = True
-        if player.is_dead:
-            x = player
-            already_played.remove(player)
-            player_list.remove(player)
-            player.aim.kill()
-            player.kill()
-            del player
-            if len(already_played) == len(player_list):
-                already_played.clear()
-            player = get_next_player(x, player_list, already_played)
-            already_played.insert(0, player)
-            player.start_time = pygame.time.get_ticks()
-            del x
+            if int(player.rect.y) > screen_y or player.life == 0:
+                player.is_dead = True
+            if player.is_dead:
+                x = player
+                already_played.remove(player)
+                player_list.remove(player)
+                if len(player_list) == 1:
+                    if player.team == 'BLUE':
+                        won = True
+                        RedWin = True
+                    else:
+                        won = True
+                        BlueWin = True
+                player.aim.kill()
+                player.kill()
+                del player
+                if len(already_played) == len(player_list):
+                    already_played.clear()
+                player = get_next_player(x, player_list, already_played)
+                already_played.insert(0, player)
+                player.start_time = pygame.time.get_ticks()
+                del x
+        if RedWin:
+            screen.blit(red_team_wins, ((screen_x / 2) - 300, 30))
+        elif BlueWin:
+            screen.blit(blue_team_wins, ((screen_x / 2) - 300, 30))
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
