@@ -142,7 +142,7 @@ def main(team_blue, team_red):
                 if len(already_played) == len(player_list):
                     already_played.clear()
                 player.bullet = Bullets.Bullet(player)
-                player.bullet.shooting = True
+                player.bullet.shoot()
                 active_sprite_list.add(player.bullet)
                 player = get_next_player(player, player_list, already_played)
                 already_played.insert(0, player)

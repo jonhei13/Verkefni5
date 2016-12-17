@@ -67,8 +67,8 @@ class Bullet(pygame.sprite.Sprite):
         self.bulletframe_down = pygame.transform.rotate(self.image, 180)
 
     def update(self):
+        self.calc_grav()
         if self.shooting:
-            self.change_x = 1
             self.rect.y += self.change_y
             if self.direction == 'R':
                 self.rect.x += self.change_x
@@ -86,9 +86,16 @@ class Bullet(pygame.sprite.Sprite):
             bleh = 0
             self.shooting = False
 
+    def calc_grav(self):
+        #Calculates Gravity
+
+        self.change_y += .35
+
     def shoot(self):
+        self.change_x = 15
         self.shooting = True
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
+        self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/5
         if len(hit_list) > 0:
-            self.change_y = 1
+            self.change_y = self.worm.aim.rect.y
