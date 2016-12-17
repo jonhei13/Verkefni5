@@ -4,9 +4,9 @@ class Team:
         self.team_members = team_list
         self.team_health = 0
 
-    def update(self):
+    def update(self, team_list):
         self.team_health = 0
-        for member in self.team_members:
+        for member in team_list:
             self.team_health += member.life
 
 
