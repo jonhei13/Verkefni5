@@ -1,6 +1,5 @@
 """
-This module is used to hold the Player class. The Player represents the user-
-controlled sprite on the screen.
+This module represents a single Worm instance and what he can do
 """
 import pygame
 import constants
@@ -9,9 +8,6 @@ from spritesheet_functions import SpriteSheet
 
 
 class Worm(pygame.sprite.Sprite):
-    """ This class represents the bar at the bottom that the player
-    controls. """
-
     # -- Methods
     def __init__(self):
         """ Constructor function """
