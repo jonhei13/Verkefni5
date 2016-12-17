@@ -1,5 +1,4 @@
 import pygame
-from spritesheet_functions import SpriteSheet
 import constants
 import platforms
 SCREEN_HEIGHT = constants.SCREEN_HEIGHT
@@ -16,25 +15,17 @@ class Landscape(pygame.sprite.Sprite):
         self.worm = worm
 
     def update(self):
-        #screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
-        #Terrain = LandScape.Landscape()
         self.platform_list.update()
-        #background = pygame.Surface(screen.get_size())
 
     def draw(self, screen):
         screen.fill(constants.BLUE)
-        #screen.blit(self.image, self.rect)
         self.platform_list.draw(screen)
 
 
 
 class LandScape01(Landscape):
     def __init__(self, worm):
-        #self.image = pygame.image.load('Pics/Untitled.png').convert_alpha()
-        # self.image = MainImage.get_image(0, 0, 1280, 720)
-        #self.mask = pygame.mask.from_surface(self.image)
         self.platform_list = pygame.sprite.Group()
-        #self.rect = self.image.get_rect()
         self.worm = worm
 
         level = [[platforms.BIG_ISLAND_RIGHT, 630, 720-432],

@@ -1,16 +1,8 @@
-"""
-Module for managing platforms.
-"""
+
 import pygame
 
 from spritesheet_functions import SpriteSheet
 
-# These constants define our platform types:
-#   Name of file
-#   X location of sprite
-#   Y location of sprite
-#   Width of sprite
-#   Height of sprite
 
 BIG_ISLAND_RIGHT = (630, 288, 650, 432)
 BIG_ISLAND_LEFT = (0, 191, 586, 529)

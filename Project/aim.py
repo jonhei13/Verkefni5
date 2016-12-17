@@ -4,8 +4,6 @@ import constants
 
 from spritesheet_functions import SpriteSheet
 
-
-
 class Aim(pygame.sprite.Sprite):
     def __init__(self, worm):
         super().__init__()
