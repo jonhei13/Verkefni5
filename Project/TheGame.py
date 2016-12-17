@@ -90,9 +90,6 @@ def main(team_blue, team_red):
         time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
         screen.blit(time, (20, 680))
 
-        health = health_font.render(str(player.life), 2, (255, 0, 0))
-        screen.blit(health, (player.rect.x, player.rect.y - 20))
-
         red_team_health = team_health_font.render(str(red_team.team_health), 2, (255, 0, 0))
         blue_team_health = team_health_font.render(str(blue_team.team_health), 2, (255, 0, 0))
 
