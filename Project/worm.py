@@ -202,15 +202,8 @@ class Worm(pygame.sprite.Sprite):
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
             self.onblock = True
-            # If we are moving right,
-            # set our right side to the left side of the item we hit
-            #self.change_x = 0
             self.change_x = 0
-            if self.change_x > 0:
-                self.change_x = 0
-            elif self.change_x < 0:
-                # Otherwise if we are moving left, do the opposite.
-                self.change_x = 0
+
 
         # Move up/down
         self.rect.y += self.change_y
@@ -270,7 +263,10 @@ class Worm(pygame.sprite.Sprite):
         """ Called when the user hits the left arrow. """
         self.direction = "L"
         if self.jumping:
-            self.change_x = -3
+            if self.rect.x < 0:
+                self.change_x = 0
+            else:
+                self.change_x = -3
 
             self.onblock = False
 
@@ -278,9 +274,13 @@ class Worm(pygame.sprite.Sprite):
         """ Called when the user hits the right arrow. """
         self.direction = "R"
         if self.jumping:
-            self.change_x = 3
-
+            if self.rect.x+10 >= constants.SCREEN_WIDTH:
+                self.change_x = 0
+            else:
+                self.change_x = 3
             self.onblock = False
+
+
 
     def stop(self):
         """ Called when the user lets off the keyboard. """
