@@ -34,6 +34,7 @@ class Worm(pygame.sprite.Sprite):
         self.name = ''
         self.team = ''
         self.current_gun = GunMenu.GRENADE
+        self.is_dead = False
 
         # This holds all the images for the animated walk left/right
         # of our player
