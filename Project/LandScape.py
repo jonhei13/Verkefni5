@@ -2,8 +2,6 @@ import pygame
 from spritesheet_functions import SpriteSheet
 import constants
 import platforms
-
-import Worms
 SCREEN_HEIGHT = constants.SCREEN_HEIGHT
 SCREEN_WIDTH = constants.SCREEN_WIDTH
 

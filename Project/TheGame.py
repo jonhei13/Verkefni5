@@ -9,7 +9,6 @@ import worm
 import constants
 import GunMenu
 import aim
-import GameMenu
 import Team
 import Bullets
 
