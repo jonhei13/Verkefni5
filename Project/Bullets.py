@@ -71,10 +71,11 @@ class Bullets(pygame.sprite.Sprite, worm):
         # Check if we hit surface or player
         if self.rect.x > constants.SCREEN_WIDTH or self.rect.y > constants.SCREEN_HEIGHT
             or self.rect.y < 0:
+            #todo remove bullet from frame
+
 
 
     def shoot(self):
-
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
         if len(hit_list) > 0:
