@@ -97,12 +97,13 @@ class Bullet(pygame.sprite.Sprite):
 
         worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
         for worm in worm_hit_list:
-            worm.jump()
-            worm.life -= self.damage
-            # self.onblock = True
-            self.change_x = 0
-            self.change_y = 0
-            self.kill()
+            if worm != self.worm:
+                worm.jump()
+                worm.life -= self.damage
+                # self.onblock = True
+                self.change_x = 0
+                self.change_y = 0
+                self.kill()
 
     def calc_grav(self):
         #Calculates Gravity
@@ -110,7 +111,7 @@ class Bullet(pygame.sprite.Sprite):
         self.change_y += .35
 
     def shoot(self):
-        self.change_x = 15
+        self.change_x = 10
         self.shooting = True
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
