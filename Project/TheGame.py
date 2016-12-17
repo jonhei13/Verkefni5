@@ -56,7 +56,8 @@ def main(team_blue, team_red):
 
     red_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_red_logo.png'), (100, 24))
     blue_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_blue_logo.png'), (100, 24))
-
+    red_team_wins = pygame.transform.scale(pygame.image.load('Pics/rtw.png'), (100, 24))
+    blue_team_wins = pygame.transform.scale(pygame.image.load('Pics/btw.png'), (100, 24))
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
     for man in player_list:
@@ -160,6 +161,11 @@ def main(team_blue, team_red):
             player.is_dead = True
         if player.is_dead:
             player_list.remove(player)
+            if len(player_list) == 1:
+                if player.team == 'BLUE':
+                    screen.blit(red_team_wins, ((screen_x / 2) - 50, 30))
+                else:
+                    screen.blit(blue_team_wins, ((screen_x / 2) - 50, 30))
             player.aim.kill()
             player.kill()
             del player
