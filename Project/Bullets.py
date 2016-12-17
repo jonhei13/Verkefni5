@@ -50,8 +50,9 @@ class Bullet(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
+
         self.rect.x = self.worm.rect.x
-        self.rect.y = self.worm.rect.y
+        self.rect.y = self.worm.rect.y + 5
 
         # Load all the right facing images
         self.bulletframe_r = self.image
@@ -89,12 +90,17 @@ class Bullet(pygame.sprite.Sprite):
             #self.onblock = True
             self.change_x = 0
             self.change_y = 0
+            self.kill()
+
 
         worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
-        for block in worm_hit_list:
+        for worm in worm_hit_list:
+            worm.jump()
+            worm.life -= self.damage
             # self.onblock = True
             self.change_x = 0
             self.change_y = 0
+            self.kill()
 
     def calc_grav(self):
         #Calculates Gravity
