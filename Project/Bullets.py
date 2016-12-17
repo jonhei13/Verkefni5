@@ -86,6 +86,12 @@ class Bullet(pygame.sprite.Sprite):
             bleh = 0
             self.shooting = False
 
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
+        for block in block_hit_list:
+            #self.onblock = True
+            self.change_x = 0
+            self.change_y = 0
+
     def calc_grav(self):
         #Calculates Gravity
 

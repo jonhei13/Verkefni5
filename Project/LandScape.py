@@ -24,9 +24,9 @@ class Landscape(pygame.sprite.Sprite):
 
 
 class LandScape01(Landscape):
-    def __init__(self, worm):
+    def __init__(self, worms):
         self.platform_list = pygame.sprite.Group()
-        self.worm = worm
+        self.worms = worms
 
         level = [[platforms.BIG_ISLAND_RIGHT, 630, 720-432],
                  [platforms.BIG_ISLAND_LEFT, 0, 720-529],
@@ -37,6 +37,6 @@ class LandScape01(Landscape):
             block = platforms.Platform(platform[0])
             block.rect.x = platform[1]
             block.rect.y = platform[2]
-            block.player = self.worm
+            block.players = self.worms
             self.platform_list.add(block)
 
