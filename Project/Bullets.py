@@ -72,13 +72,11 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.y += self.change_y
             if self.direction == 'R':
                 self.rect.x += self.change_x
-                print('Right')
                 #self.mask = pygame.mask.from_surface(self.bulletframe_r)
                 self.image = self.bulletframe_r
 
             else:
                 self.rect.x -= self.change_x
-                print('Left')
                 #self.mask = pygame.mask.from_surface(self.bulletframe_l)
                 self.image = self.bulletframe_l
         # Check if we hit surface or player
@@ -89,6 +87,12 @@ class Bullet(pygame.sprite.Sprite):
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
             #self.onblock = True
+            self.change_x = 0
+            self.change_y = 0
+
+        worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
+        for block in worm_hit_list:
+            # self.onblock = True
             self.change_x = 0
             self.change_y = 0
 
