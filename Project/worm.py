@@ -1,31 +1,21 @@
 """
-This module is used to hold the Player class. The Player represents the user-
-controlled sprite on the screen.
+This module represents a single Worm instance and what he can do
 """
 import pygame
-import GunMenu
 import constants
 from GunMenu import GunMenu
-
-
 from spritesheet_functions import SpriteSheet
-
-from aim import Aim
 
 
 class Worm(pygame.sprite.Sprite):
-    """ This class represents the bar at the bottom that the player
-    controls. """
-
     # -- Methods
     def __init__(self):
         """ Constructor function """
 
         # Call the parent's constructor
         super().__init__()
-
         # -- Attributes
-        # Set speed vector of player
+        # Speed vector of the Worm
         self.change_x = 0
         self.change_y = 0
 
@@ -40,19 +30,19 @@ class Worm(pygame.sprite.Sprite):
         # of our player
         self.walking_frames_l = []
         self.walking_frames_r = []
-        # jumping
+        #jumping
         self.jumping_frames_r = []
         self.jumping_frames_l = []
-
+        #Shooting
         self.shooting_frames_r = []
         self.shooting_frames_l = []
-
+        #Grenade
         self.grenade_frames_r = []
         self.grenade_frames_l = []
-
+        #HolyBomb
         self.holybomb_frames_r = []
         self.holybomb_frames_l = []
-
+        #Baseball
         self.baseball_frames_r = []
         self.baseball_frames_l = []
 
@@ -154,13 +144,13 @@ class Worm(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        """ Move the player. """
+        """ Moves The Player"""
         # Gravity
         self.calc_grav()
         # Move left/right
         if self.jumping:
             self.rect.x += self.change_x
-        pos = self.rect.x #+ self.level.world_shift
+        pos = self.rect.x
         if self.direction == "R":
             frame = (pos // 30) % len(self.walking_frames_r)
             if self.jumping:
@@ -211,7 +201,6 @@ class Worm(pygame.sprite.Sprite):
         # Check and see if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for blokc in block_hit_list:
-            #self.change_y = 0
             self.onblock = True
             #Reset our position based on the top/bottom of the object.
             if self.change_y > 0:
@@ -223,32 +212,16 @@ class Worm(pygame.sprite.Sprite):
             self.change_y = 0
             self.jumping = False
 
-        #update our timer
-        # self.time -= (pygame.time.get_ticks() - self.start_time) / 1000
-            #if isinstance(block, MovingPlatform):
-             #   self.rect.x += block.change_x
-
     def calc_grav(self):
-        """ Calculate effect of gravity. """
+        #Calculates Gravity
         if not self.onblock:
             if self.change_y == 0:
                 self.change_y = 1
             else:
                 self.change_y += .35
-
-        # See if we are on the ground.
-        # if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
-        #     self.change_y = 0
-        #     self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
-        #     self.jumping = False
-
     def jump(self):
-        """ Called when user hits 'jump' button. """
+        # Worm Jumps
         self.onblock = False
-        # move down a bit and see if there is a platform below us.
-        # Move down 2 pixels because it doesn't work well if we only move down 1
-        # when working with a platform moving down.
-
         self.rect.y += 2
         platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                         pygame.sprite.collide_mask)
@@ -260,10 +233,10 @@ class Worm(pygame.sprite.Sprite):
 
     # Player-controlled movement:
     def go_left(self):
-        """ Called when the user hits the left arrow. """
+        #Checks if player is inside the scope and moves when user hits jump and left arrow
         self.direction = "L"
         if self.jumping:
-            if self.rect.x < 0:
+            if self.rect.x-5 < 0:
                 self.change_x = 0
             else:
                 self.change_x = -3
@@ -271,7 +244,7 @@ class Worm(pygame.sprite.Sprite):
             self.onblock = False
 
     def go_right(self):
-        """ Called when the user hits the right arrow. """
+        # Checks if player is inside the scope and moves when user hits jump and right arrow
         self.direction = "R"
         if self.jumping:
             if self.rect.x+10 >= constants.SCREEN_WIDTH:
@@ -283,7 +256,7 @@ class Worm(pygame.sprite.Sprite):
 
 
     def stop(self):
-        """ Called when the user lets off the keyboard. """
+        #When no buttons are pressed
         self.change_x = 0
         self.onblock = False
 
