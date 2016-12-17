@@ -141,6 +141,9 @@ def main(team_blue, team_red):
                 sleep(0.2)
                 if len(already_played) == len(player_list):
                     already_played.clear()
+                player.bullet = Bullets.Bullet(player)
+                player.bullet.shooting = True
+                active_sprite_list.add(player.bullet)
                 player = get_next_player(player, player_list, already_played)
                 already_played.insert(0, player)
                 player.start_time = pygame.time.get_ticks()
