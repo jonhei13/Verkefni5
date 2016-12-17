@@ -28,7 +28,7 @@ class Bullet(pygame.sprite.Sprite):
         self.bulletframe_up = None
         self.bulletframe_down = None
 
-        self.direction = 'R'
+        self.direction = worm.direction
         self.shooting = False
         self.damage = 0
 
@@ -51,12 +51,14 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.x = self.worm.rect.x
-        self.rect.y = self.worm.rect.y - 30
+        self.rect.y = self.worm.rect.y
+
+
 
         # Load all the right facing images
-        self.bulletframe_r = pygame.transform.rotate(self.image, 90)
+        self.bulletframe_r = self.image
         # Load all left facing images
-        self.bulletframe_l = self.image
+        self.bulletframe_l = pygame.transform.flip(self.image, True, False)
         # If Rocket Load Rotated Angle to Right
         self.bulletframe_degreeR = pygame.transform.rotate(self.image, 45)
         # If Rocket Load Rotated Angle to Left
@@ -68,20 +70,22 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         if self.shooting:
-            self.rect.x += self.change_x
+            #self.rect.x += self.change_x
             self.rect.y += self.change_y
             if self.direction == 'R':
-                if self.shooting:
-                    self.mask = pygame.mask.from_surface(self.bulletframe_r)
-                    self.change_x = -.50
+                self.rect.x += self.change_x
+                self.mask = pygame.mask.from_surface(self.bulletframe_r)
+                self.image = self.bulletframe_r
+                self.change_x = .50
             else:
-                if self.shooting:
-                    self.mask = pygame.mask.from_surface(self.bulletframe_l)
-                    self.change_x = .50
+                self.rect.x -= self.change_x
+                self.mask = pygame.mask.from_surface(self.bulletframe_l)
+                self.image = self.bulletframe_l
+                self.change_x = .50
         # Check if we hit surface or player
         if self.rect.x > constants.SCREEN_WIDTH or self.rect.y > constants.SCREEN_HEIGHT or self.rect.y < 0:
-            bleh = 0
-            self.shooting = False
+            pass
+            # self.shooting = False
 
 
     def shoot(self):

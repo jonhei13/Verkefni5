@@ -19,12 +19,6 @@ import Bullets
 turntime = 20
 
 
-def get_next_player(curr_player, pl, ap):
-    for p in pl:
-        if p not in ap and p.team != curr_player.team:
-            print('Current player: ', p.name, ' | Current team: ', p.team)
-            return p
-
 
 def main(team_blue, team_red):
     pygame.init()
@@ -74,13 +68,11 @@ def main(team_blue, team_red):
         active_sprite_list.add(man)
         active_sprite_list.add(man.aim)
 
+
     clock = pygame.time.Clock()
-
-    player = player_list[0]
+    counter = 0
+    player = player_list[counter]
     player.start_time = pygame.time.get_ticks()
-
-    already_played = list()
-    already_played.insert(0, player)
 
     while True:
         for event in pygame.event.get():
@@ -138,11 +130,15 @@ def main(team_blue, team_red):
                 player.current_gun = g_menu.CLUB
             #shoot on keypad 0 down
             if event.key == pygame.K_KP0:
+                if counter == len(player_list)-1:
+                    counter = -1
+                counter += 1
                 sleep(0.2)
-                if len(already_played) == len(player_list):
-                    already_played.clear()
-                player = get_next_player(player, player_list, already_played)
-                already_played.insert(0, player)
+                player.bullet = Bullets.Bullet(player)
+                player.bullet.shooting = True
+                active_sprite_list.add(player.bullet)
+                player = player_list[counter]
+                print('BOOM - It is: ', player.name + "'s"', Turn')
                 player.start_time = pygame.time.get_ticks()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and player.change_x < 0:
@@ -153,27 +149,26 @@ def main(team_blue, team_red):
         #Stop if player time is over
         player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
         if player.time <= 0:
-            if len(already_played) == len(player_list):
-                already_played.clear()
-            player = get_next_player(player, player_list, already_played)
-            already_played.insert(0, player)
+            if counter == len(player_list)-1:
+                counter = -1
+            counter += 1
+            player = player_list[counter]
+            print('BOOM - It is: ', player.name + "'s"', Turn')
             player.start_time = pygame.time.get_ticks()
 
         if int(player.rect.y) > screen_y or player.life == 0:
             player.is_dead = True
         if player.is_dead:
-            x = player
-            already_played.remove(player)
             player_list.remove(player)
             player.aim.kill()
             player.kill()
             del player
-            if len(already_played) == len(player_list):
-                already_played.clear()
-            player = get_next_player(x, player_list, already_played)
-            already_played.insert(0, player)
+            if counter == len(player_list)-1:
+                counter = -1
+            counter += 1
+            player = player_list[counter]
             player.start_time = pygame.time.get_ticks()
-            del x
+
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
