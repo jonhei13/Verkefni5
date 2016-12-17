@@ -23,6 +23,7 @@ def main(team_blue, team_red):
     pygame.init()
 
     health_font = pygame.font.SysFont("monospace", 22)
+    team_health_font = pygame.font.SysFont("monospace", 22, bold=True)
     time_font = pygame.font.SysFont("monospace", 30, bold=True)
 
     screen_x = constants.SCREEN_WIDTH
@@ -37,9 +38,6 @@ def main(team_blue, team_red):
 
     player_list = []
 
-    red_team = Team.Team(team_red)
-    blue_team = Team.Team(team_blue)
-
     for p in team_blue:
         player = worm.Worm()
         player.team = 'BLUE'
@@ -52,6 +50,12 @@ def main(team_blue, team_red):
         player.name = p
         player_list.insert(random.randint(0, len(team_red)), player)
 
+    red_team = Team.Team([x for x in player_list if x.team == 'RED'])
+    blue_team = Team.Team([x for x in player_list if x.team == 'BLUE'])
+
+    red_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_red_logo.png'), (100, 24))
+    blue_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_blue_logo.png'), (100, 24))
+
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
     for man in player_list:
@@ -62,6 +66,7 @@ def main(team_blue, team_red):
         man.aim = aim.Aim(man)
         active_sprite_list.add(man)
         active_sprite_list.add(man.aim)
+
 
     clock = pygame.time.Clock()
     player = player_list.pop()
@@ -78,11 +83,23 @@ def main(team_blue, team_red):
         current_level.draw(screen)
         active_sprite_list.draw(screen)
 
+        blue_team.update()
+        red_team.update()
+
         time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
         screen.blit(time, (20, 680))
 
         health = health_font.render(str(player.life), 2, (255, 0, 0))
         screen.blit(health, (player.rect.x, player.rect.y - 20))
+
+        red_team_health = team_health_font.render(str(red_team.team_health), 2, (255, 0, 0))
+        blue_team_health = team_health_font.render(str(blue_team.team_health), 2, (255, 0, 0))
+
+        screen.blit(red_team_health, ((screen_x/2)-30, 30))
+        screen.blit(blue_team_health, ((screen_x / 2) + 30, 30))
+
+        screen.blit(red_team_logo, ((screen_x/2)-140, 30))
+        screen.blit(blue_team_logo, ((screen_x/2) + 78, 30))
 
         for players in player_list:
             health = health_font.render(str(players.life), 2, (255, 0, 0))
@@ -142,4 +159,4 @@ def main(team_blue, team_red):
         clock.tick(60)
 
 if __name__ == "__main__":
-    main(['Gunni'], ['Siggi'])
+    main(['Gunni', 'Arnar'], ['Siggi', 'Jonni'])
