@@ -21,7 +21,9 @@ turntime = 20
 
 def main(team_blue, team_red):
     pygame.init()
-    myfont = pygame.font.SysFont("monospace", 25)
+
+    health_font = pygame.font.SysFont("monospace", 22)
+    time_font = pygame.font.SysFont("monospace", 30, bold=True)
 
     screen_x = constants.SCREEN_WIDTH
     screen_y = constants.SCREEN_HEIGHT
@@ -71,16 +73,20 @@ def main(team_blue, team_red):
                 pygame.quit()
                 sys.exit()
 
-
-
         active_sprite_list.update()
         current_level.update()
         current_level.draw(screen)
         active_sprite_list.draw(screen)
 
-        #print players time
-        label = myfont.render(str(int(player.time)), 2, (255, 0, 0))
-        screen.blit(label, (player.rect.x+5, player.rect.y - 20))
+        time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
+        screen.blit(time, (20, 680))
+
+        health = health_font.render(str(player.life), 2, (255, 0, 0))
+        screen.blit(health, (player.rect.x, player.rect.y - 20))
+
+        for players in player_list:
+            health = health_font.render(str(players.life), 2, (255, 0, 0))
+            screen.blit(health, (players.rect.x, players.rect.y - 20))
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -117,7 +123,7 @@ def main(team_blue, team_red):
                 player.stop()
             if event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop()
-        print(player.time)
+
         #Stop if player time is over
         player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
         if player.time <= 0:
@@ -136,4 +142,4 @@ def main(team_blue, team_red):
         clock.tick(60)
 
 if __name__ == "__main__":
-    GameMenu.game_menu()
+    main(['Gunni'], ['Siggi'])
