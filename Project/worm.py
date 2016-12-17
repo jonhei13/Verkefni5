@@ -157,7 +157,6 @@ class Worm(pygame.sprite.Sprite):
         """ Move the player. """
         # Gravity
         self.calc_grav()
-
         # Move left/right
         if self.jumping:
             self.rect.x += self.change_x
@@ -265,7 +264,6 @@ class Worm(pygame.sprite.Sprite):
         # If it is ok to jump, set our speed upwards
         if len(platform_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
             self.change_y = -5
-            #self.jumping = True
 
     # Player-controlled movement:
     def go_left(self):
@@ -288,3 +286,4 @@ class Worm(pygame.sprite.Sprite):
         """ Called when the user lets off the keyboard. """
         self.change_x = 0
         self.onblock = False
+

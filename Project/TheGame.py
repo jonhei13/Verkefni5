@@ -156,9 +156,19 @@ def main(team_blue, team_red):
             print('BOOM - It is: ', player.name + "'s"', Turn')
             player.start_time = pygame.time.get_ticks()
 
-        if int(player.rect.y) > screen_y:
+        if int(player.rect.y) > screen_y or player.life == 0:
             player.is_dead = True
-            pass  # TODO: Remove dead players from screen and where they don't belong
+        if player.is_dead:
+            player_list.remove(player)
+            player.aim.kill()
+            player.kill()
+            del player
+            if counter == len(player_list)-1:
+                counter = -1
+            counter += 1
+            player = player_list[counter]
+            player.start_time = pygame.time.get_ticks()
+
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
