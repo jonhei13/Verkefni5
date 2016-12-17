@@ -64,8 +64,8 @@ def main(team_blue, team_red):
 
     red_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_red_logo.png'), (100, 24))
     blue_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_blue_logo.png'), (100, 24))
-    red_team_wins = pygame.transform.scale(pygame.image.load('Pics/rtw.png'), (700, 500))
-    blue_team_wins = pygame.transform.scale(pygame.image.load('Pics/btw.png'), (700, 500))
+    red_team_wins = pygame.transform.scale(pygame.image.load('Pics/rtw.png'), (500, 200))
+    blue_team_wins = pygame.transform.scale(pygame.image.load('Pics/btw.png'), (500, 200))
 
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
@@ -189,9 +189,9 @@ def main(team_blue, team_red):
                 player.start_time = pygame.time.get_ticks()
                 del x
         if RedWin:
-            screen.blit(red_team_wins, ((screen_x / 2) - 300, 30))
+            screen.blit(red_team_wins, ((screen_x / 2) - 250, 200))
         elif BlueWin:
-            screen.blit(blue_team_wins, ((screen_x / 2) - 300, 30))
+            screen.blit(blue_team_wins, ((screen_x / 2) - 250, 200))
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 
