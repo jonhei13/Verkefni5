@@ -106,10 +106,13 @@ class Bullet(pygame.sprite.Sprite):
             self.image = sprite_sheet.get_image(1891, 381, 22, 12)
             self.damage = 20
         elif self.worm.current_gun == GunMenu.GRENADE:
-            self.image = sprite_sheet.get_image(1891, 381, 22, 12)
+            self.image = sprite_sheet.get_image(794, 382, 26, 24)
+            self.image = pygame.transform.scale(self.image, (20, 20))
             self.damage = 30
         elif self.worm.current_gun == GunMenu.HOLYBOMB:
-            self.image = sprite_sheet.get_image(1891, 381, 22, 12)
+            self.image = sprite_sheet.get_image(784, 331, 33, 33)
+            self.image.set_colorkey(constants.WHITE)
+            #self.image = pygame.transform.scale(self.image, (20, 20))
             self.damage = 45
 
         self.rect = self.image.get_rect()
