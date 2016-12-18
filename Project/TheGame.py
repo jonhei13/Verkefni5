@@ -163,7 +163,6 @@ def main(team_blue, team_red, language):
                     player.current_gun = g_menu.CLUB
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
-                    t1 = timemod.gmtime()[5]
                     red_team.update([x for x in player_list if x.team == 'RED'])
                     blue_team.update([x for x in player_list if x.team == 'BLUE'])
                     b = False
