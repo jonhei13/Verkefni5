@@ -25,6 +25,7 @@ class Worm(pygame.sprite.Sprite):
         self.team = ''
         self.current_gun = GunMenu.BAZOOKA
         self.is_dead = False
+        self.is_playing = False
 
         # This holds all the images for the animated walk left/right
         # of our player

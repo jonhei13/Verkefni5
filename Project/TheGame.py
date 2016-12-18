@@ -89,6 +89,7 @@ def main(team_blue, team_red):
     blue_team_cycle = itertools.cycle(blue_team.members)
 
     player = get_player(red_team_cycle, blue_team_cycle, team_played)
+    player.is_playing = True
     player.start_time = pygame.time.get_ticks()
     team_played = not team_played
 
@@ -109,8 +110,8 @@ def main(team_blue, team_red):
         time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
         screen.blit(time, (20, 680))
 
-        red_team_health = team_health_font.render(str(red_team.team_health), 2, (255, 0, 0))
-        blue_team_health = team_health_font.render(str(blue_team.team_health), 2, (255, 0, 0))
+        red_team_health = team_health_font.render(str(red_team.team_health), 2, (255, 255, 255))
+        blue_team_health = team_health_font.render(str(blue_team.team_health), 2, (255, 255, 255))
 
         screen.blit(red_team_health, ((screen_x/2)-30, 30))
         screen.blit(blue_team_health, ((screen_x / 2) + 30, 30))
@@ -118,14 +119,19 @@ def main(team_blue, team_red):
         screen.blit(red_team_logo, ((screen_x/2)-140, 30))
         screen.blit(blue_team_logo, ((screen_x/2) + 78, 30))
 
-        pn = name_font.render(str(player.name), 2, (255, 255, 0))
-        screen.blit(pn, (player.rect.x, player.rect.y - 40))
-
         for players in player_list:
-            if player is not players:
-                pn = name_font.render(str(players.name), 2, (0, 0, 0))
+            if players.is_playing:
+                pn = name_font.render(str(players.name), 2, (255, 255, 255))
                 screen.blit(pn, (players.rect.x, players.rect.y - 40))
-            health = health_font.render(str(players.life), 2, (255, 0, 0))
+            else:
+                if players.team == 'BLUE':
+                    pn = name_font.render(str(players.name), 2, (0, 0, 255))
+                    screen.blit(pn, (players.rect.x, players.rect.y - 40))
+                else:
+                    pn = name_font.render(str(players.name), 2, (255, 0, 0))
+                    screen.blit(pn, (players.rect.x, players.rect.y - 40))
+
+            health = health_font.render(str(players.life), 2, (255, 255, 255))
             screen.blit(health, (players.rect.x, players.rect.y - 20))
             
         if not won:
@@ -157,10 +163,12 @@ def main(team_blue, team_red):
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
                     sleep(0.2)
+                    player.is_playing = False
                     player.bullet = Bullets.Bullet(player)
                     player.bullet.shoot()
                     active_sprite_list.add(player.bullet)
                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
+                    player.is_playing = True
                     team_played = not team_played
                     player.start_time = pygame.time.get_ticks()
             if event.type == pygame.KEYUP:
@@ -172,8 +180,10 @@ def main(team_blue, team_red):
             # Stop if player time is over
             player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
             if player.time <= 0:
+                player.is_playing = False
                 player = get_player(red_team_cycle, blue_team_cycle, team_played)
                 team_played = not team_played
+                player.is_playing = True
                 player.start_time = pygame.time.get_ticks()
 
             # Dying
@@ -200,6 +210,7 @@ def main(team_blue, team_red):
                     red_team_cycle = itertools.cycle(red_team.members)
                     team_played = False
                 player = get_player(red_team_cycle, blue_team_cycle, team_played)
+                player.is_playing = True
                 team_played = not team_played
                 player.start_time = pygame.time.get_ticks()
 
