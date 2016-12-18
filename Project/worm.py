@@ -257,9 +257,9 @@ class Worm(pygame.sprite.Sprite):
         self.onblock = False
         self.jumping = True
         if self.rect.x > explosion.rect.x:
-            self.change_x = explosion.bullet.damage*0.3
-        else:
             self.change_x = explosion.bullet.damage
+        else:
+            self.change_x = -explosion.bullet.damage
         self.change_y = -explosion.bullet.damage*0.3
         self.life -= explosion.bullet.damage
         self.sound.get_ouch().play()
