@@ -47,6 +47,7 @@ class Explosion(pygame.sprite.Sprite):
         self.frame = 0
         self.last_update = pygame.time.get_ticks()
         self.frame_rate = 50
+        self.worms_already_hit = []
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -63,7 +64,9 @@ class Explosion(pygame.sprite.Sprite):
 
         worm_hit_list = pygame.sprite.spritecollide(self, self.bullet.level.worms, False, pygame.sprite.collide_mask)
         for worm in worm_hit_list:
-            worm.hit_by_explosion(self)
+            if worm not in self.worms_already_hit:
+                worm.hit_by_explosion(self)
+                self.worms_already_hit.append(worm)
 
 
 class Bullet(pygame.sprite.Sprite):
