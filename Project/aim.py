@@ -26,22 +26,20 @@ class Aim(pygame.sprite.Sprite):
         self.rect.x = self.worm.rect.x
         self.rect.y = self.worm.rect.y
         if self.worm.direction == 'R':
-            self.rect.x = self.worm.rect.x + 30
-            self.rect.y = math.cos(self.changeUD / 70) * 30 + self.worm.rect.y
-            self.rect.x = math.sin(self.changeUD / 70) * 30 + self.worm.rect.x
-            print(self.rect.x)
-            print(self.rect.y)
+            self.rect.y = math.cos(self.changeUD / 70) * 50 + self.worm.rect.y
+            self.rect.x = -math.sin(self.changeUD / 70) * 50 + self.worm.rect.x
         else:
-            self.rect.x = self.worm.rect.x - 30
-            self.rect.y = -math.cos(self.changeUD / 70) * 30 + self.worm.rect.y
-            self.rect.x = -math.sin(self.changeUD / 70) * 30 + self.worm.rect.x
+            self.rect.y = math.cos(self.changeUD / 70) * 50 + self.worm.rect.y
+            self.rect.x = math.sin(self.changeUD / 70) * 50 + self.worm.rect.x
 
         # self.changeUD + self.worm.rect.y - 30
 
     def go_up(self):
         self.direction = 'U'
-        self.changeUD -= 2
+        if self.changeUD / 70 > -3 and self.changeUD / 70 < 3:
+            self.changeUD -= 2
 
     def go_down(self):
         self.direction = 'D'
-        self.changeUD += 2
+        if self.changeUD / 70 < 0:
+            self.changeUD += 2

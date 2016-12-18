@@ -205,7 +205,7 @@ class Worm(pygame.sprite.Sprite):
 
         # Check and see if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
-        for blokc in block_hit_list:
+        for block in block_hit_list:
             self.onblock = True
             #Reset our position based on the top/bottom of the object.
             if self.change_y > 0:
@@ -247,7 +247,17 @@ class Worm(pygame.sprite.Sprite):
             self.change_x = -bullet.damage
         self.change_y = -bullet.damage*0.1
         self.life -= bullet.damage
+        self.sound.get_ouch().play()
 
+    def hit_by_explosion(self, explosion):
+        self.onblock = False
+        self.jumping = True
+        if self.rect.x > explosion.rect.x:
+            self.change_x = explosion.bullet.damage*0.3
+        else:
+            self.change_x = explosion.bullet.damage
+        self.change_y = -explosion.bullet.damage*0.3
+        self.life -= explosion.bullet.damage
         self.sound.get_ouch().play()
 
     # Player-controlled movement:
@@ -271,7 +281,6 @@ class Worm(pygame.sprite.Sprite):
             else:
                 self.change_x = 3
             self.onblock = False
-
 
 
     def stop(self):
