@@ -14,7 +14,6 @@ import Team
 import Bullets
 import itertools
 
-
 #####
 #player turn time
 turntime = 20
@@ -171,11 +170,9 @@ def main(team_blue, team_red, language):
                         keys = pygame.key.get_pressed()
                         f = True
                         while keys[pygame.K_KP0] and f:
-                            speed += 0.0001
-                            print(speed)
+                            speed += 0.00005
                             for e in pygame.event.get():
                                 if e.type == pygame.KEYUP:
-                                    print('Blabla')
                                     player.is_playing = False
                                     player.bullet = Bullets.Bullet(active_sprite_list, player, language)
                                     player.bullet.shoot(speed)
@@ -224,18 +221,18 @@ def main(team_blue, team_red, language):
                 if not won:
                     player.aim.kill()
                     player.kill()
-                if pl_team == 'BLUE':
-                    blue_team.update([x for x in player_list if x.team == 'BLUE'])
-                    blue_team_cycle = itertools.cycle(blue_team.members)
-                    team_played = True
-                else:
-                    red_team.update([x for x in player_list if x.team == 'RED'])
-                    red_team_cycle = itertools.cycle(red_team.members)
-                    team_played = False
-                player = get_player(red_team_cycle, blue_team_cycle, team_played)
-                player.is_playing = True
-                team_played = not team_played
-                player.start_time = pygame.time.get_ticks()
+                    if pl_team == 'BLUE':
+                        blue_team.update([x for x in player_list if x.team == 'BLUE'])
+                        blue_team_cycle = itertools.cycle(blue_team.members)
+                        team_played = True
+                    else:
+                        red_team.update([x for x in player_list if x.team == 'RED'])
+                        red_team_cycle = itertools.cycle(red_team.members)
+                        team_played = False
+                    player = get_player(red_team_cycle, blue_team_cycle, team_played)
+                    player.is_playing = True
+                    team_played = not team_played
+                    player.start_time = pygame.time.get_ticks()
 
         if RedWin:
             screen.blit(red_team_wins, ((screen_x / 2) - 250, 200))
