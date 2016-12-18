@@ -283,11 +283,4 @@ def main(team_blue, team_red, language):
 
 if __name__ == "__main__":
     GameMenu.game_menu()
-<<<<<<< HEAD
-# To play with out menu
-# if __name__ == '__main__':
-#     main(['Gunnar', 'Bjarni'], ['Alex', 'Jon'], 'American')
-=======
-
->>>>>>> e21d1d43e74506840a06bd8c557d506fe7d3d77f
 
