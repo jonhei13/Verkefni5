@@ -178,8 +178,8 @@ class Bullet(pygame.sprite.Sprite):
 
         self.change_y += .35
 
-    def shoot(self):
-        self.change_x = 10
+    def shoot(self, speed):
+        self.change_x = speed
         self.shooting = True
         self.landed = False
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
