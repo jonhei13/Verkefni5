@@ -195,7 +195,6 @@ class Bullet(pygame.sprite.Sprite):
             angle = math.atan(y/x)
         else:
             angle = 0
-        print(angle)
         self.change_x = speed*math.cos(angle)
         self.change_y = speed*math.sin(angle)
         self.shooting = True
