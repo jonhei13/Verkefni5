@@ -11,7 +11,7 @@ pygame.mixer.init()
 pygame.font.init()
 menu_song = pygame.mixer.Sound('Sounds/menu_song.wav')
 screen = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT))
-pygame.display.set_caption('Ormar')
+pygame.display.set_caption('Ormstunga')
 txt = pygame.font.Font('freesansbold.ttf', 15)
 clock = pygame.time.Clock()
 
@@ -128,7 +128,7 @@ def game_menu():
     play_click = pygame.mixer.Sound('Sounds/SoundEffects/SHOTGUNRELOAD.wav')
 
     bg = pygame.image.load('Pics/Menu/menubg.png')
-    title = im_resize('Pics/Menu/game_title.png', 314, 169)
+    title = im_resize('Pics/Menu/game_title.png', 360, 169)
     pb = im_resize('Pics/Menu/play.png', 90, 50)
     pb_p = im_resize('Pics/Menu/play_pressed.png', 90, 50)
     tb = im_resize('Pics/Menu/team_blue.png', 200, 300)
@@ -168,7 +168,7 @@ def game_menu():
 
         # Display background and title
         screen.blit(bg, (0, 0))
-        screen.blit(title, (485, 20))
+        screen.blit(title, ((c.SCREEN_WIDTH/2)-180, 20))
 
         # Display blue and red logo
         screen.blit(tb_logo, (130, 90))

@@ -3,7 +3,6 @@ from cmath import rect
 import pygame
 import sys
 import random
-from time import sleep
 import LandScape
 import worm
 import constants
@@ -188,9 +187,6 @@ def main(team_blue, team_red, language):
                 if event.key == pygame.K_3:
                     img = g_menu.HOLYBOMB
                     player.current_gun = g_menu.HOLYBOMB
-                if event.key == pygame.K_4:
-                    img = g_menu.CLUB
-                    player.current_gun = g_menu.CLUB
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
                     red_team.update([x for x in player_list if x.team == 'RED'])
@@ -285,9 +281,9 @@ def main(team_blue, team_red, language):
 
         clock.tick(60)
 
-# if __name__ == "__main__":
-#     GameMenu.game_menu()
+if __name__ == "__main__":
+    GameMenu.game_menu()
 # To play with out menu
-if __name__ == '__main__':
-    main(['Gunnar', 'Bjarni'], ['Alex', 'Jon'], 'American')
+# if __name__ == '__main__':
+#     main(['Gunnar', 'Bjarni'], ['Alex', 'Jon'], 'American')
 
