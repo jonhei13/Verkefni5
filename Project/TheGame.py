@@ -71,7 +71,10 @@ def main(team_blue, team_red):
     #background = pygame.Surface(screen.get_size())
     current_level = LandScape.LandScape01(player_list)
     for man in player_list:
-        man.rect.x = random.randint(700, 950)
+        if man.team == 'BLUE':
+            man.rect.x = random.randint(1100, 1200)
+        else:
+            man.rect.x = random.randint(250, 400)
         man.rect.y = 50 - man.rect.height
         man.level = current_level
         man.aim = aim.Aim(man)
