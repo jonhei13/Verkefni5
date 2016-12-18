@@ -3,13 +3,14 @@ This module represents a single Worm instance and what he can do
 """
 import pygame
 import constants
+import Sounds
 from GunMenu import GunMenu
 from spritesheet_functions import SpriteSheet
 
 
 class Worm(pygame.sprite.Sprite):
     # -- Methods
-    def __init__(self):
+    def __init__(self, lang):
         """ Constructor function """
 
         # Call the parent's constructor
@@ -26,6 +27,8 @@ class Worm(pygame.sprite.Sprite):
         self.current_gun = GunMenu.BAZOOKA
         self.is_dead = False
         self.is_playing = False
+
+        self.sound = Sounds.Sounds(lang)
 
         # This holds all the images for the animated walk left/right
         # of our player
@@ -229,6 +232,7 @@ class Worm(pygame.sprite.Sprite):
         platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                         pygame.sprite.collide_mask)
         self.rect.y -= 2
+        self.sound.get_jump().play()
 
         # If it is ok to jump, set our speed upwards
         if len(platform_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
@@ -243,6 +247,8 @@ class Worm(pygame.sprite.Sprite):
             self.change_x = -bullet.damage
         self.change_y = -bullet.damage*0.1
         self.life -= bullet.damage
+
+        self.sound.get_ouch().play()
 
     # Player-controlled movement:
     def go_left(self):

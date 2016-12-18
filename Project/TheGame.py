@@ -26,8 +26,9 @@ def get_player(cycle_r, cycle_b, last_team):
     return cycle_b.__next__()
 
 
-def main(team_blue, team_red):
+def main(team_blue, team_red, language):
     pygame.init()
+    pygame.mixer.init()
 
     health_font = pygame.font.SysFont("monospace", 12)
     name_font = pygame.font.SysFont("monospace", 12)
@@ -49,13 +50,13 @@ def main(team_blue, team_red):
     player_list = []
 
     for p in team_blue:
-        player = worm.Worm()
+        player = worm.Worm(language)
         player.team = 'BLUE'
         player.name = p
         player_list.insert(random.randint(0, len(team_blue)), player)
 
     for p in team_red:
-        player = worm.Worm()
+        player = worm.Worm(language)
         player.team = 'RED'
         player.name = p
         player_list.insert(random.randint(0, len(team_red)), player)
@@ -140,7 +141,7 @@ def main(team_blue, team_red):
                     player.go_left()
                 if event.key == pygame.K_RIGHT:
                     player.go_right()
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and not player.jumping:
                     player.jumping = True
                     player.jump()
                 if event.key == pygame.K_UP:
@@ -226,4 +227,4 @@ def main(team_blue, team_red):
         clock.tick(60)
 
 if __name__ == "__main__":
-    main(['Gunni', 'Arnar'], ['Siggi', 'Jonni'])
+    GameMenu.game_menu()

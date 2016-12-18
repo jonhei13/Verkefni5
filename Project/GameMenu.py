@@ -62,6 +62,35 @@ def button(pic, x, y, w, h):
     screen.blit(pic, (x, y))
 
 
+def select_language(mouse, img_list):
+    if 0 < mouse[0] < 98:
+        return img_list[0], 0
+    elif 100 < mouse[0] < 198:
+        return img_list[1], 1
+    elif 200 < mouse[0] < 298:
+        return img_list[2], 2
+    elif 300 < mouse[0] < 398:
+        return img_list[3], 3
+    elif 400 < mouse[0] < 498:
+        return img_list[4], 4
+    elif 500 < mouse[0] < 598:
+        return img_list[5], 5
+    elif 600 < mouse[0] < 698:
+        return img_list[6], 6
+    elif 700 < mouse[0] < 798:
+        return img_list[7], 7
+    elif 800 < mouse[0] < 898:
+        return img_list[8], 8
+    elif 900 < mouse[0] < 998:
+        return img_list[9], 9
+    elif 1000 < mouse[0] < 1098:
+        return img_list[10], 10
+    elif 1100 < mouse[0] < 1198:
+        return img_list[11], 11
+    elif 1200 < mouse[0] < 1280:
+        return img_list[12], 12
+
+
 # Remove player from team
 def remove_player(mouse, team_list):
     try:
@@ -108,6 +137,24 @@ def game_menu():
     r_inp_p = im_resize('Pics/Menu/red_input_pressed.png', 166, 30)
     b_inp_p = im_resize('Pics/Menu/blue_input_pressed.png', 165, 30)
 
+    img_list = list()
+    img_list_name = ['American', 'AngryScots', 'English', 'German', 'Hispanic', 'Irish', 'Jock', 'Norwegian', 'Polish', 'Scouser', 'SoulMan', 'Spanish', 'Swedish']
+    img_list.append(im_resize('Pics/Menu/languageAmerica.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageAngry.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageEnglish.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageGerman.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageHispanic.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageIrish.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageJock.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageNorwegian.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languagePolish.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageScouser.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageSoulMan.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageSpanish.png', c.SCREEN_WIDTH, 50))
+    img_list.append(im_resize('Pics/Menu/languageSwedish.png', c.SCREEN_WIDTH, 50))
+    lang = img_list[0]
+    curr_selected_lang = 0
+
     while True:
         clock.tick(60)
         mouse = pygame.mouse.get_pos()
@@ -148,7 +195,7 @@ def game_menu():
             screen.blit(pb_p, (600, 304))
             if len(blue_list) > 0 and len(red_list) > 0:
                 menu_song.stop()
-                TheGame.main(blue_list, red_list)
+                TheGame.main(blue_list, red_list, img_list_name[curr_selected_lang])
 
         # Removing player from team
         if 300 > mouse[0] > 130:
@@ -162,6 +209,11 @@ def game_menu():
                     remove_player(mouse, red_list)
                     sleep(0.2)
 
+        if c.SCREEN_HEIGHT > mouse[1] > c.SCREEN_HEIGHT-50:
+            if pygame.mouse.get_pressed()[0]:
+                lang, curr_selected_lang = select_language(mouse, img_list)
+
+        screen.blit(lang, (0, c.SCREEN_HEIGHT-50))
         screen.blit(add, (970, 132))
 
         # Blue and red input boxes
