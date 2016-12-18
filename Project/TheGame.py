@@ -21,9 +21,12 @@ turntime = 20
 
 
 def get_player(cycle_r, cycle_b, last_team):
-    if last_team:
-        return cycle_r.__next__()
-    return cycle_b.__next__()
+    try:
+        if last_team:
+            return cycle_r.__next__()
+        return cycle_b.__next__()
+    except StopIteration:
+        pass
 
 
 def main(team_blue, team_red, language):
