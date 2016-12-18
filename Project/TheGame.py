@@ -102,13 +102,28 @@ def main(team_blue, team_red, language):
                 pygame.quit()
                 sys.exit()
 
+
+        blue_team.update([x for x in player_list if x.team == 'BLUE'])
+        red_team.update([x for x in player_list if x.team == 'RED'])
+        for RedWorm in red_team.members:
+            if RedWorm.life <= 0 and player_list != []:
+                RedWorm.kill()
+                RedWorm.aim.kill()
+                player_list.remove(RedWorm)
+        for BlueWorm in blue_team.members:
+            if BlueWorm.life <= 0 and player_list != []:
+                BlueWorm.kill()
+                BlueWorm.aim.kill()
+                player_list.remove(BlueWorm)
+
+
         active_sprite_list.update()
         current_level.update()
         current_level.draw(screen)
         active_sprite_list.draw(screen)
 
-        blue_team.update([x for x in player_list if x.team == 'BLUE'])
-        red_team.update([x for x in player_list if x.team == 'RED'])
+
+
 
         time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
         screen.blit(time, (20, 680))
@@ -208,19 +223,12 @@ def main(team_blue, team_red, language):
                 player.start_time = pygame.time.get_ticks()
 
             # Dying
-            if int(player.rect.y) > screen_y or player.life <= 0:
-                pl_team = player.team
-
+            if int(player.rect.y) > screen_y and player_list != []:
                 player_list.remove(player)
-                if len(blue_team.members) == 0:
-                        won = True
-                        RedWin = True
-                if len(red_team.members) == 0:
-                        won = True
-                        BlueWin = True
+                player.kill
+                player.aim.kill
+                pl_team = player.team
                 if not won:
-                    player.aim.kill()
-                    player.kill()
                     if pl_team == 'BLUE':
                         blue_team.update([x for x in player_list if x.team == 'BLUE'])
                         blue_team_cycle = itertools.cycle(blue_team.members)
