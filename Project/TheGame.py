@@ -161,17 +161,26 @@ def main(team_blue, team_red):
                     player.current_gun = g_menu.CLUB
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
-                    sleep(0.2)
-                    print('keydown')
-                    player.is_playing = False
-                    player.bullet = Bullets.Bullet(active_sprite_list, player)
-                    player.bullet.shoot()
-                    active_sprite_list.add(player.bullet)
-                    player = get_player(red_team_cycle, blue_team_cycle, team_played)
-                    player.is_playing = True
-                    team_played = not team_played
-                    player.start_time = pygame.time.get_ticks()
-
+                    red_team.update([x for x in player_list if x.team == 'RED'])
+                    blue_team.update([x for x in player_list if x.team == 'BLUE'])
+                    if len(red_team.members) > 0 and len(blue_team.members) > 0:
+                        sleep(0.2)
+                        print('keydown')
+                        player.is_playing = False
+                        player.bullet = Bullets.Bullet(active_sprite_list, player)
+                        player.bullet.shoot()
+                        active_sprite_list.add(player.bullet)
+                        player = get_player(red_team_cycle, blue_team_cycle, team_played)
+                        player.is_playing = True
+                        team_played = not team_played
+                        player.start_time = pygame.time.get_ticks()
+                    else:
+                        if len(blue_team.members) == 0:
+                            won = True
+                            RedWin = True
+                        if len(red_team.members) == 0:
+                            won = True
+                            BlueWin = True
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_KP0:
                         print('keyup')
@@ -196,15 +205,15 @@ def main(team_blue, team_red):
 
                 player_list.remove(player)
 
-                if len(player_list) == 1:
-                    if player.team == 'BLUE':
+                if len(blue_team.members) == 0:
                         won = True
                         RedWin = True
-                    else:
+                if len(red_team.members) == 0:
                         won = True
                         BlueWin = True
-                player.aim.kill()
-                player.kill()
+                if not won:
+                    player.aim.kill()
+                    player.kill()
                 if pl_team == 'BLUE':
                     blue_team.update([x for x in player_list if x.team == 'BLUE'])
                     blue_team_cycle = itertools.cycle(blue_team.members)
