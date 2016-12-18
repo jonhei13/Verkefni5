@@ -69,6 +69,7 @@ def main(team_blue, team_red, language):
     blue_team_logo = pygame.transform.scale(pygame.image.load('Pics/Menu/team_blue_logo.png'), (100, 24))
     red_team_wins = pygame.transform.scale(pygame.image.load('Pics/rtw.png'), (500, 200))
     blue_team_wins = pygame.transform.scale(pygame.image.load('Pics/btw.png'), (500, 200))
+    play_again = pygame.transform.scale(pygame.image.load('Pics/play_again.png'), (155, 47))
 
     active_sprite_list = pygame.sprite.Group()
     #background = pygame.Surface(screen.get_size())
@@ -249,10 +250,20 @@ def main(team_blue, team_red, language):
                 won = True
                 BlueWin = True
 
+        mouse = pygame.mouse.get_pos()
+
         if RedWin:
             screen.blit(red_team_wins, ((screen_x / 2) - 250, 200))
+            screen.blit(play_again, ((screen_x / 2) - 77.5, 400))
+            if (screen_x / 2) - 77.5 < mouse[0] < (screen_x / 2) + 77.5 and 400 < mouse[1] < 447:
+                if pygame.mouse.get_pressed()[0]:
+                    GameMenu.game_menu()
         elif BlueWin:
             screen.blit(blue_team_wins, ((screen_x / 2) - 250, 200))
+            screen.blit(play_again, ((screen_x / 2) - 77.5, 400))
+            if (screen_x / 2) - 77.5 < mouse[0] < (screen_x / 2) + 77.5 and 400 < mouse[1] < 447:
+                if pygame.mouse.get_pressed()[0]:
+                    GameMenu.game_menu()
 
         screen.blit(img.value, (screen_x-img.value.get_width(), screen_y-img.value.get_height()))
 

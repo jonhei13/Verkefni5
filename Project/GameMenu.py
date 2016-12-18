@@ -215,10 +215,13 @@ def game_menu():
                     remove_player(mouse, red_list)
                     sleep(0.2)
 
-        if c.SCREEN_HEIGHT > mouse[1] > c.SCREEN_HEIGHT-50:
-            if pygame.mouse.get_pressed()[0]:
-                click.play()
-                lang, curr_selected_lang = select_language(mouse, img_list)
+        try:
+            if c.SCREEN_HEIGHT > mouse[1] > c.SCREEN_HEIGHT - 50:
+                if pygame.mouse.get_pressed()[0]:
+                    click.play()
+                    lang, curr_selected_lang = select_language(mouse, img_list)
+        except TypeError:
+            pass
 
         screen.blit(lang, (0, c.SCREEN_HEIGHT-50))
         screen.blit(add, (970, 132))
