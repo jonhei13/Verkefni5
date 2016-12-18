@@ -224,6 +224,9 @@ class Worm(pygame.sprite.Sprite):
                 self.change_y = 1
             else:
                 self.change_y += .35
+        if self.rect.y <= 0:
+            self.change_y = 1
+            self.onblock = False
     def jump(self):
         # Worm Jumps
         self.onblock = False
