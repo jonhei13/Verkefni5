@@ -6,12 +6,60 @@ import enum
 import constants
 
 
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, center):
+        super().__init__()
+        self.center = center
+        self.color = constants.WHITE
+        self.blast = []
+
+        green = (0, 128, 0)
+
+        sprite_sheet = SpriteSheet('Pics/explosion.png')
+        image = sprite_sheet.get_image(10, 26, 16, 14)
+        image.set_colorkey(green)
+        self.blast.append(image)
+        image = sprite_sheet.get_image(37, 12, 28, 34)
+        image.set_colorkey(green)
+        self.blast.append(image)
+        image = sprite_sheet.get_image(81, 7, 44, 44)
+        image.set_colorkey(green)
+        self.blast.append(image)
+        image = sprite_sheet.get_image(136, 10, 46, 38)
+        image.set_colorkey(green)
+        self.blast.append(image)
+        image = sprite_sheet.get_image(189, 8, 48, 40)
+        image.set_colorkey(green)
+        self.blast.append(image)
+
+        self.image = self.blast[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 50
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.frame += 1
+            if self.frame > len(self.blast)-1:
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = self.blast[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+
+
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, worm):
+    def __init__(self, active_sprite_list, worm):
         super().__init__()
         self.change_x = 0
         self.change_y = 0
 
+        self.active_sprite_list = active_sprite_list
         self.worm = worm
 
         self.level = self.worm.level
@@ -31,6 +79,10 @@ class Bullet(pygame.sprite.Sprite):
         self.direction = self.worm.direction
         self.shooting = False
         self.damage = 0
+
+        self.landed = None
+
+        self.explosion = None
 
         sprite_sheet = SpriteSheet('Pics/worms_sprites.png')
 
@@ -84,24 +136,29 @@ class Bullet(pygame.sprite.Sprite):
                 self.image = self.bulletframe_l
 
 
-
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
         for block in block_hit_list:
             if self.rect.x > constants.SCREEN_WIDTH or self.rect.y > constants.SCREEN_HEIGHT or self.rect.y < 0:
                 pass
             else:
+                expl = Explosion(self.rect.center)
+                self.active_sprite_list.add(expl)
                 #self.onblock = True
                 self.change_x = 0
                 self.change_y = 0
+                self.landed = True
                 self.kill()
 
 
         worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
         for worm in worm_hit_list:
             if worm != self.worm:
+                expl = Explosion(self.worm.rect.center)
+                self.active_sprite_list.add(expl)
                 worm.hit(self)
                 self.change_x = 0
                 self.change_y = 0
+                self.landed = True
                 self.kill()
 
     def calc_grav(self):
@@ -112,6 +169,7 @@ class Bullet(pygame.sprite.Sprite):
     def shoot(self):
         self.change_x = 10
         self.shooting = True
+        self.landed = False
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
         self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/5

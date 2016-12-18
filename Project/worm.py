@@ -202,7 +202,7 @@ class Worm(pygame.sprite.Sprite):
 
         # Check and see if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False, pygame.sprite.collide_mask)
-        for blokc in block_hit_list:
+        for block in block_hit_list:
             self.onblock = True
             #Reset our position based on the top/bottom of the object.
             if self.change_y > 0:

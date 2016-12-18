@@ -164,7 +164,7 @@ def main(team_blue, team_red):
                 if event.key == pygame.K_KP0:
                     sleep(0.2)
                     player.is_playing = False
-                    player.bullet = Bullets.Bullet(player)
+                    player.bullet = Bullets.Bullet(active_sprite_list, player)
                     player.bullet.shoot()
                     active_sprite_list.add(player.bullet)
                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
@@ -176,6 +176,7 @@ def main(team_blue, team_red):
                     player.stop()
                 if event.key == pygame.K_RIGHT and player.change_x > 0:
                     player.stop()
+
 
             # Stop if player time is over
             player.time = turntime - (pygame.time.get_ticks() - player.start_time) / 1000
