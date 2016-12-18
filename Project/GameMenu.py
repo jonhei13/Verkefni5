@@ -3,6 +3,7 @@ import sys
 import constants as c
 from time import sleep
 import TheGame
+import Sounds
 
 # Initializers
 pygame.init()
@@ -123,6 +124,8 @@ def game_menu():
     red_column = 175
     rem = txt.render('Del', True, c.BLACK)
     add = txt.render('Add player', True, c.WHITE)
+    click = pygame.mixer.Sound('Sounds/SoundEffects/CursorSelect.wav')
+    play_click = pygame.mixer.Sound('Sounds/SoundEffects/SHOTGUNRELOAD.wav')
 
     bg = pygame.image.load('Pics/Menu/menubg.png')
     title = im_resize('Pics/Menu/game_title.png', 314, 169)
@@ -195,22 +198,26 @@ def game_menu():
             screen.blit(pb_p, (600, 304))
             if len(blue_list) > 0 and len(red_list) > 0:
                 menu_song.stop()
+                play_click.play()
                 TheGame.main(blue_list, red_list, img_list_name[curr_selected_lang])
 
         # Removing player from team
         if 300 > mouse[0] > 130:
             if 450 > mouse[1] > 150:
                 if pygame.mouse.get_pressed()[0]:
+                    click.play()
                     remove_player(mouse, blue_list)
                     sleep(0.2)
         if 1120 > mouse[0] > 950:
             if 450 > mouse[1] > 150:
                 if pygame.mouse.get_pressed()[0]:
+                    click.play()
                     remove_player(mouse, red_list)
                     sleep(0.2)
 
         if c.SCREEN_HEIGHT > mouse[1] > c.SCREEN_HEIGHT-50:
             if pygame.mouse.get_pressed()[0]:
+                click.play()
                 lang, curr_selected_lang = select_language(mouse, img_list)
 
         screen.blit(lang, (0, c.SCREEN_HEIGHT-50))
