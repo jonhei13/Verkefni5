@@ -173,10 +173,10 @@ def main(team_blue, team_red, language):
                             speed += 0.00005
                             for e in pygame.event.get():
                                 if e.type == pygame.KEYUP:
-                                    player.is_playing = False
                                     player.bullet = Bullets.Bullet(active_sprite_list, player, language)
                                     player.bullet.shoot(speed)
                                     active_sprite_list.add(player.bullet)
+                                    player.is_playing = False
                                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
                                     player.is_playing = True
                                     team_played = not team_played
@@ -234,12 +234,12 @@ def main(team_blue, team_red, language):
                     team_played = not team_played
                     player.start_time = pygame.time.get_ticks()
 
-        if len(blue_team.members) == 0:
-            won = True
-            RedWin = True
-        if len(red_team.members) == 0:
-            won = True
-            BlueWin = True
+            if len(blue_team.members) == 0:
+                won = True
+                RedWin = True
+            if len(red_team.members) == 0:
+                won = True
+                BlueWin = True
 
         if RedWin:
             screen.blit(red_team_wins, ((screen_x / 2) - 250, 200))
