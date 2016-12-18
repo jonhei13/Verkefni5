@@ -16,7 +16,8 @@ class Sounds:
         self.jump.append(pygame.mixer.Sound('Sounds/Languages/' + language + '/JUMP2.wav'))
 
     def get_ouch(self):
-        return self.ouch[random.randint(0, 4)]
+        return self.ouch[random.randint(0, 3)]
 
     def get_jump(self):
-        return self.jump[random.randint(0, 2)]
+        print('getting jump')
+        return self.jump[random.randint(0, 1)]
