@@ -96,6 +96,7 @@ def main(team_blue, team_red, language):
     player.is_playing = True
     player.start_time = pygame.time.get_ticks()
     team_played = not team_played
+    PlayerDel = False
 
     while True:
         for event in pygame.event.get():
@@ -104,27 +105,41 @@ def main(team_blue, team_red, language):
                 sys.exit()
 
 
-        blue_team.update([x for x in player_list if x.team == 'BLUE'])
-        red_team.update([x for x in player_list if x.team == 'RED'])
         for RedWorm in red_team.members:
             if RedWorm.life <= 0 and player_list != []:
+                player_list.remove(RedWorm)
                 RedWorm.kill()
                 RedWorm.aim.kill()
-                player_list.remove(RedWorm)
+                PlayerDel = True
+
         for BlueWorm in blue_team.members:
             if BlueWorm.life <= 0 and player_list != []:
+                player_list.remove(BlueWorm)
                 BlueWorm.kill()
                 BlueWorm.aim.kill()
-                player_list.remove(BlueWorm)
+                PlayerDel = True
 
+
+        if PlayerDel:
+            pl_team = player.team
+            if pl_team == 'BLUE':
+                blue_team.update([x for x in player_list if x.team == 'BLUE'])
+                blue_team_cycle = itertools.cycle(blue_team.members)
+                team_played = True
+            else:
+                red_team.update([x for x in player_list if x.team == 'RED'])
+                red_team_cycle = itertools.cycle(red_team.members)
+                team_played = False
+            player = get_player(red_team_cycle, blue_team_cycle, team_played)
+            player.is_playing = True
+            team_played = not team_played
+            player.start_time = pygame.time.get_ticks()
+            PlayerDel = False
 
         active_sprite_list.update()
         current_level.update()
         current_level.draw(screen)
         active_sprite_list.draw(screen)
-
-
-
 
         time = time_font.render(str(int(player.time)), 2, (255, 255, 0))
         screen.blit(time, (20, 680))
@@ -152,7 +167,6 @@ def main(team_blue, team_red, language):
 
             health = health_font.render(str(players.life), 2, (255, 255, 255))
             screen.blit(health, (players.rect.x, players.rect.y - 20))
-
         if not won:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
