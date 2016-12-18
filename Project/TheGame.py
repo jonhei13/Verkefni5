@@ -29,7 +29,8 @@ def get_player(cycle_r, cycle_b, last_team):
 def main(team_blue, team_red):
     pygame.init()
 
-    health_font = pygame.font.SysFont("monospace", 22)
+    health_font = pygame.font.SysFont("monospace", 12)
+    name_font = pygame.font.SysFont("monospace", 12)
     team_health_font = pygame.font.SysFont("monospace", 22, bold=True)
     time_font = pygame.font.SysFont("monospace", 30, bold=True)
 
@@ -114,9 +115,16 @@ def main(team_blue, team_red):
         screen.blit(red_team_logo, ((screen_x/2)-140, 30))
         screen.blit(blue_team_logo, ((screen_x/2) + 78, 30))
 
+        pn = name_font.render(str(player.name), 2, (255, 255, 0))
+        screen.blit(pn, (player.rect.x, player.rect.y - 40))
+
         for players in player_list:
+            if player is not players:
+                pn = name_font.render(str(players.name), 2, (0, 0, 0))
+                screen.blit(pn, (players.rect.x, players.rect.y - 40))
             health = health_font.render(str(players.life), 2, (255, 0, 0))
             screen.blit(health, (players.rect.x, players.rect.y - 20))
+            
         if not won:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
