@@ -18,7 +18,7 @@ class Landscape(pygame.sprite.Sprite):
         self.platform_list.update()
 
     def draw(self, screen):
-        screen.fill(constants.BLUE)
+        screen.fill(constants.BLACK)
         self.platform_list.draw(screen)
 
 

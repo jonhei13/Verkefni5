@@ -248,7 +248,7 @@ class Worm(pygame.sprite.Sprite):
         #Checks if player is inside the scope and moves when user hits jump and left arrow
         self.direction = "L"
         if self.jumping:
-            if self.rect.x-5 < 0:
+            if self.rect.x-10 < 0:
                 self.change_x = 0
             else:
                 self.change_x = -3
@@ -259,7 +259,7 @@ class Worm(pygame.sprite.Sprite):
         # Checks if player is inside the scope and moves when user hits jump and right arrow
         self.direction = "R"
         if self.jumping:
-            if self.rect.x+10 >= constants.SCREEN_WIDTH:
+            if self.rect.x+15 >= constants.SCREEN_WIDTH:
                 self.change_x = 0
             else:
                 self.change_x = 3
