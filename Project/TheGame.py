@@ -165,18 +165,21 @@ def main(team_blue, team_red, language):
                     blue_team.update([x for x in player_list if x.team == 'BLUE'])
                     b = False
                     if len(red_team.members) > 0 and len(blue_team.members) > 0:
-                        for e in pygame.event.get():
-                            if e.type == pygame.KEYUP:
-                                if e.key == pygame.K_KP0:
+                        keys = pygame.key.get_pressed()
+                        f = True
+                        while keys[pygame.K_KP0] and f:
+                            for e in pygame.event.get():
+                                if e.type == pygame.KEYUP:
                                     print('keydown')
                                     player.is_playing = False
-                                    player.bullet = Bullets.Bullet(active_sprite_list, player)
+                                    player.bullet = Bullets.Bullet(active_sprite_list, player, language)
                                     player.bullet.shoot()
                                     active_sprite_list.add(player.bullet)
                                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
                                     player.is_playing = True
                                     team_played = not team_played
                                     player.start_time = pygame.time.get_ticks()
+                                    f = False
                                     break
                     else:
                         if len(blue_team.members) == 0:
