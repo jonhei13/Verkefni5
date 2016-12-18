@@ -171,11 +171,9 @@ def main(team_blue, team_red, language):
                         keys = pygame.key.get_pressed()
                         f = True
                         while keys[pygame.K_KP0] and f:
-                            speed += 0.0001
-                            print(speed)
+                            speed += 0.00005
                             for e in pygame.event.get():
                                 if e.type == pygame.KEYUP:
-                                    print('Blabla')
                                     player.is_playing = False
                                     player.bullet = Bullets.Bullet(active_sprite_list, player, language)
                                     player.bullet.shoot(speed)
