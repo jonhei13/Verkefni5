@@ -188,5 +188,5 @@ class Bullet(pygame.sprite.Sprite):
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
         self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/5
-        if len(hit_list) > 0:
-            self.change_y = self.worm.aim.rect.y
+        #if len(hit_list) > 0:
+         #   self.change_y = self.worm.aim.rect.y
