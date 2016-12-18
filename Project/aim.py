@@ -1,5 +1,6 @@
 import pygame
 
+import math
 import constants
 
 from spritesheet_functions import SpriteSheet
@@ -16,17 +17,26 @@ class Aim(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.worm = worm
-        self.rect.x = self.worm.rect.x + 30
-        self.rect.y = self.worm.rect.y + 30
+        self.rect.x = self.worm.rect.x - 30
+        self.rect.y = self.worm.rect.y - 30
         self.direction = None
         self.changeUD = 0
 
     def update(self):
+        self.rect.x = self.worm.rect.x
+        self.rect.y = self.worm.rect.y
         if self.worm.direction == 'R':
             self.rect.x = self.worm.rect.x + 30
+            self.rect.y = math.cos(self.changeUD / 70) * 30 + self.worm.rect.y
+            self.rect.x = math.sin(self.changeUD / 70) * 30 + self.worm.rect.x
+            print(self.rect.x)
+            print(self.rect.y)
         else:
             self.rect.x = self.worm.rect.x - 30
-        self.rect.y = self.changeUD + self.worm.rect.y - 30
+            self.rect.y = -math.cos(self.changeUD / 70) * 30 + self.worm.rect.y
+            self.rect.x = -math.sin(self.changeUD / 70) * 30 + self.worm.rect.x
+
+        # self.changeUD + self.worm.rect.y - 30
 
     def go_up(self):
         self.direction = 'U'
