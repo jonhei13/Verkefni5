@@ -204,7 +204,6 @@ def main(team_blue, team_red):
                 pl_team = player.team
 
                 player_list.remove(player)
-
                 if len(blue_team.members) == 0:
                         won = True
                         RedWin = True
