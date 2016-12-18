@@ -197,6 +197,8 @@ class Bullet(pygame.sprite.Sprite):
         self.change_y = speed*math.sin(angle)
         self.shooting = True
         self.landed = False
+        if self.worm.current_gun == GunMenu.HOLYBOMB:
+            pygame.mixer.Sound('Sounds/SoundEffects/HOLYGRENADE.wav').play()
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
         #self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/4
