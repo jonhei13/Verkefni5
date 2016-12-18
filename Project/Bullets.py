@@ -188,7 +188,10 @@ class Bullet(pygame.sprite.Sprite):
             x = self.worm.aim.rect.x - self.worm.rect.x
         else:
             x = self.worm.rect.x - self.worm.aim.rect.x
-        angle = math.atan(y/x)
+        if x != 0:
+            angle = math.atan(y/x)
+        else:
+            angle = 0
         print(angle)
         self.change_x = speed*math.cos(angle)
         self.change_y = speed*math.sin(angle)
