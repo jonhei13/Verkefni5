@@ -4,7 +4,7 @@ from GunMenu import GunMenu
 import pygame
 import enum
 import constants
-
+import Sounds
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, bullet):
@@ -66,11 +66,11 @@ class Explosion(pygame.sprite.Sprite):
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, active_sprite_list, worm):
+    def __init__(self, active_sprite_list, worm, language):
         super().__init__()
         self.change_x = 0
         self.change_y = 0
-
+        self.sound = Sounds.Sounds(language)
         self.active_sprite_list = active_sprite_list
         self.worm = worm
 
@@ -153,6 +153,7 @@ class Bullet(pygame.sprite.Sprite):
             if self.rect.x > constants.SCREEN_WIDTH or self.rect.y > constants.SCREEN_HEIGHT or self.rect.y < 0:
                 pass
             else:
+                self.sound.get_explosion().play()
                 expl = Explosion(self.rect.center, self)
                 self.active_sprite_list.add(expl)
                 # self.onblock = True

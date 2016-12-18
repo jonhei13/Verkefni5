@@ -260,6 +260,7 @@ class Worm(pygame.sprite.Sprite):
         self.change_y = -explosion.bullet.damage*0.3
         self.life -= explosion.bullet.damage
         self.sound.get_ouch().play()
+        self.sound.get_explosion().play()
         self.update()
 
     # Player-controlled movement:

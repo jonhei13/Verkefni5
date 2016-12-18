@@ -141,8 +141,7 @@ def main(team_blue, team_red, language):
                     player.go_left()
                 if event.key == pygame.K_RIGHT:
                     player.go_right()
-                if event.key == pygame.K_SPACE and not player.jumping:
-                    player.jumping = True
+                if event.key == pygame.K_SPACE:
                     player.jump()
                 if event.key == pygame.K_UP:
                     player.aim.go_up()
@@ -168,7 +167,7 @@ def main(team_blue, team_red, language):
                         sleep(0.2)
                         print('keydown')
                         player.is_playing = False
-                        player.bullet = Bullets.Bullet(active_sprite_list, player)
+                        player.bullet = Bullets.Bullet(active_sprite_list, player, language)
                         player.bullet.shoot()
                         active_sprite_list.add(player.bullet)
                         player = get_player(red_team_cycle, blue_team_cycle, team_played)
@@ -239,4 +238,4 @@ def main(team_blue, team_red, language):
         clock.tick(60)
 
 if __name__ == "__main__":
-    GameMenu.game_menu()
+    main(['Jonni', 'Siggi'], ['Arnar', 'Fannar'], 'SoulMan')
