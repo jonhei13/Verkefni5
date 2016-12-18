@@ -159,10 +159,10 @@ def main(team_blue, team_red):
                 if event.key == pygame.K_4:
                     img = g_menu.CLUB
                     player.current_gun = g_menu.CLUB
-
                 # shoot on keypad 0 down
                 if event.key == pygame.K_KP0:
                     sleep(0.2)
+                    print('keydown')
                     player.is_playing = False
                     player.bullet = Bullets.Bullet(active_sprite_list, player)
                     player.bullet.shoot()
@@ -171,7 +171,10 @@ def main(team_blue, team_red):
                     player.is_playing = True
                     team_played = not team_played
                     player.start_time = pygame.time.get_ticks()
+
             if event.type == pygame.KEYUP:
+                if event.key == pygame.K_KP0:
+                        print('keyup')
                 if event.key == pygame.K_LEFT and player.change_x < 0:
                     player.stop()
                 if event.key == pygame.K_RIGHT and player.change_x > 0:
@@ -188,7 +191,7 @@ def main(team_blue, team_red):
                 player.start_time = pygame.time.get_ticks()
 
             # Dying
-            if int(player.rect.y) > screen_y or player.life == 0:
+            if int(player.rect.y) > screen_y or player.life <= 0:
                 pl_team = player.team
 
                 player_list.remove(player)

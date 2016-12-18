@@ -277,7 +277,6 @@ class Worm(pygame.sprite.Sprite):
             self.onblock = False
 
 
-
     def stop(self):
         #When no buttons are pressed
         self.change_x = 0
