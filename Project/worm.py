@@ -248,6 +248,7 @@ class Worm(pygame.sprite.Sprite):
         self.change_y = -bullet.damage*0.1
         self.life -= bullet.damage
         self.sound.get_ouch().play()
+        self.update()
 
     def hit_by_explosion(self, explosion):
         self.onblock = False
@@ -259,6 +260,7 @@ class Worm(pygame.sprite.Sprite):
         self.change_y = -explosion.bullet.damage*0.3
         self.life -= explosion.bullet.damage
         self.sound.get_ouch().play()
+        self.update()
 
     # Player-controlled movement:
     def go_left(self):
