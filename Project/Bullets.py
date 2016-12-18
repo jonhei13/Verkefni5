@@ -7,29 +7,37 @@ import constants
 
 
 class Explosion(pygame.sprite.Sprite):
-    def __init__(self, center):
+    def __init__(self, center, bullet):
         super().__init__()
         self.center = center
         self.color = constants.WHITE
         self.blast = []
+        self.bullet = bullet
 
         green = (0, 128, 0)
+        up_scale = (50, 50)
+
 
         sprite_sheet = SpriteSheet('Pics/explosion.png')
         image = sprite_sheet.get_image(10, 26, 16, 14)
         image.set_colorkey(green)
+        image = pygame.transform.scale(image, up_scale)
         self.blast.append(image)
         image = sprite_sheet.get_image(37, 12, 28, 34)
         image.set_colorkey(green)
+        image = pygame.transform.scale(image, up_scale)
         self.blast.append(image)
         image = sprite_sheet.get_image(81, 7, 44, 44)
         image.set_colorkey(green)
+        image = pygame.transform.scale(image, up_scale)
         self.blast.append(image)
         image = sprite_sheet.get_image(136, 10, 46, 38)
         image.set_colorkey(green)
+        image = pygame.transform.scale(image, up_scale)
         self.blast.append(image)
         image = sprite_sheet.get_image(189, 8, 48, 40)
         image.set_colorkey(green)
+        image = pygame.transform.scale(image, up_scale)
         self.blast.append(image)
 
         self.image = self.blast[0]
@@ -51,6 +59,10 @@ class Explosion(pygame.sprite.Sprite):
                 self.image = self.blast[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+
+        worm_hit_list = pygame.sprite.spritecollide(self, self.bullet.level.worms, False, pygame.sprite.collide_mask)
+        for worm in worm_hit_list:
+            worm.hit_by_explosion(self)
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -127,12 +139,12 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.y += self.change_y
             if self.direction == 'R':
                 self.rect.x += self.change_x
-                #self.mask = pygame.mask.from_surface(self.bulletframe_r)
+                self.mask = pygame.mask.from_surface(self.bulletframe_r)
                 self.image = self.bulletframe_r
 
             else:
                 self.rect.x -= self.change_x
-                #self.mask = pygame.mask.from_surface(self.bulletframe_l)
+                self.mask = pygame.mask.from_surface(self.bulletframe_l)
                 self.image = self.bulletframe_l
 
 
@@ -141,7 +153,7 @@ class Bullet(pygame.sprite.Sprite):
             if self.rect.x > constants.SCREEN_WIDTH or self.rect.y > constants.SCREEN_HEIGHT or self.rect.y < 0:
                 pass
             else:
-                expl = Explosion(self.rect.center)
+                expl = Explosion(self.rect.center, self)
                 self.active_sprite_list.add(expl)
                 #self.onblock = True
                 self.change_x = 0
@@ -153,7 +165,7 @@ class Bullet(pygame.sprite.Sprite):
         worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
         for worm in worm_hit_list:
             if worm != self.worm:
-                expl = Explosion(worm.rect.center)
+                expl = Explosion(worm.rect.center, self)
                 self.active_sprite_list.add(expl)
                 worm.hit(self)
                 self.change_x = 0

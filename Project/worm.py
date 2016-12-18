@@ -244,6 +244,16 @@ class Worm(pygame.sprite.Sprite):
         self.change_y = -bullet.damage*0.1
         self.life -= bullet.damage
 
+    def hit_by_explosion(self, explosion):
+        self.onblock = False
+        self.jumping = True
+        if self.rect.x > explosion.rect.x:
+            self.change_x = explosion.bullet.damage*0.3
+        else:
+            self.change_x = explosion.bullet.damage
+        self.change_y = -explosion.bullet.damage*0.3
+        self.life -= explosion.bullet.damage
+
     # Player-controlled movement:
     def go_left(self):
         #Checks if player is inside the scope and moves when user hits jump and left arrow
