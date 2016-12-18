@@ -40,7 +40,7 @@ def main(team_blue, team_red, language):
 
     screen_x = constants.SCREEN_WIDTH
     screen_y = constants.SCREEN_HEIGHT
-
+    speed = 0
     screen = pygame.display.set_mode((screen_x, screen_y))
     pygame.display.set_caption("Ormstunga")
     won = False
@@ -171,18 +171,21 @@ def main(team_blue, team_red, language):
                         keys = pygame.key.get_pressed()
                         f = True
                         while keys[pygame.K_KP0] and f:
+                            speed += 0.0001
+                            print(speed)
                             for e in pygame.event.get():
                                 if e.type == pygame.KEYUP:
-                                    print('keydown')
+                                    print('Blabla')
                                     player.is_playing = False
                                     player.bullet = Bullets.Bullet(active_sprite_list, player, language)
-                                    player.bullet.shoot()
+                                    player.bullet.shoot(speed)
                                     active_sprite_list.add(player.bullet)
                                     player = get_player(red_team_cycle, blue_team_cycle, team_played)
                                     player.is_playing = True
                                     team_played = not team_played
                                     player.start_time = pygame.time.get_ticks()
                                     f = False
+                                    speed = 0
                                     break
                     else:
                         if len(blue_team.members) == 0:
