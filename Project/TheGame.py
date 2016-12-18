@@ -285,9 +285,7 @@ def main(team_blue, team_red, language):
 
         clock.tick(60)
 
-# if __name__ == "__main__":
-#     GameMenu.game_menu()
-# To play with out menu
-if __name__ == '__main__':
-    main(['Gunnar', 'Bjarni'], ['Alex', 'Jon'], 'American')
+if __name__ == "__main__":
+    GameMenu.game_menu()
+
 
