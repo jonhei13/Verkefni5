@@ -134,7 +134,7 @@ def main(team_blue, team_red, language):
 
             health = health_font.render(str(players.life), 2, (255, 255, 255))
             screen.blit(health, (players.rect.x, players.rect.y - 20))
-            
+
         if not won:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -163,17 +163,21 @@ def main(team_blue, team_red, language):
                 if event.key == pygame.K_KP0:
                     red_team.update([x for x in player_list if x.team == 'RED'])
                     blue_team.update([x for x in player_list if x.team == 'BLUE'])
+                    b = False
                     if len(red_team.members) > 0 and len(blue_team.members) > 0:
-                        sleep(0.2)
-                        print('keydown')
-                        player.is_playing = False
-                        player.bullet = Bullets.Bullet(active_sprite_list, player, language)
-                        player.bullet.shoot()
-                        active_sprite_list.add(player.bullet)
-                        player = get_player(red_team_cycle, blue_team_cycle, team_played)
-                        player.is_playing = True
-                        team_played = not team_played
-                        player.start_time = pygame.time.get_ticks()
+                        for e in pygame.event.get():
+                            if e.type == pygame.KEYUP:
+                                if e.key == pygame.K_KP0:
+                                    print('keydown')
+                                    player.is_playing = False
+                                    player.bullet = Bullets.Bullet(active_sprite_list, player)
+                                    player.bullet.shoot()
+                                    active_sprite_list.add(player.bullet)
+                                    player = get_player(red_team_cycle, blue_team_cycle, team_played)
+                                    player.is_playing = True
+                                    team_played = not team_played
+                                    player.start_time = pygame.time.get_ticks()
+                                    break
                     else:
                         if len(blue_team.members) == 0:
                             won = True
@@ -182,8 +186,6 @@ def main(team_blue, team_red, language):
                             won = True
                             BlueWin = True
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_KP0:
-                        print('keyup')
                 if event.key == pygame.K_LEFT and player.change_x < 0:
                     player.stop()
                 if event.key == pygame.K_RIGHT and player.change_x > 0:
@@ -237,5 +239,9 @@ def main(team_blue, team_red, language):
 
         clock.tick(60)
 
-if __name__ == "__main__":
-    main(['Jonni', 'Siggi'], ['Arnar', 'Fannar'], 'SoulMan')
+# if __name__ == "__main__":
+#     GameMenu.game_menu()
+# To play with out menu
+if __name__ == '__main__':
+    main(['Gunnar', 'Bjarni'], ['Alex', 'Jon'], 'American')
+
