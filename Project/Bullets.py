@@ -5,6 +5,7 @@ import pygame
 import enum
 import constants
 import Sounds
+import math
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, bullet):
@@ -182,13 +183,21 @@ class Bullet(pygame.sprite.Sprite):
         self.change_y += .35
 
     def shoot(self, speed):
-        self.change_x = speed
+        y = self.worm.aim.rect.y - self.worm.rect.y
+        if self.worm.direction == 'R':
+            x = self.worm.aim.rect.x - self.worm.rect.x
+        else:
+            x = self.worm.rect.x - self.worm.aim.rect.x
+        angle = math.atan(y/x)
+        print(angle)
+        self.change_x = speed*math.cos(angle)
+        self.change_y = speed*math.sin(angle)
         self.shooting = True
         self.landed = False
         if self.worm.current_gun == GunMenu.HOLYBOMB:
             pygame.mixer.Sound('Sounds/SoundEffects/HOLYGRENADE.wav').play()
         hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                pygame.sprite.collide_mask)
-        self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/5
+        #self.change_y = (self.worm.aim.rect.y - self.worm.rect.y)/4
         #if len(hit_list) > 0:
          #   self.change_y = self.worm.aim.rect.y

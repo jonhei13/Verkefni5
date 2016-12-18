@@ -234,6 +234,13 @@ def main(team_blue, team_red, language):
                     team_played = not team_played
                     player.start_time = pygame.time.get_ticks()
 
+        if len(blue_team.members) == 0:
+            won = True
+            RedWin = True
+        if len(red_team.members) == 0:
+            won = True
+            BlueWin = True
+
         if RedWin:
             screen.blit(red_team_wins, ((screen_x / 2) - 250, 200))
         elif BlueWin:
