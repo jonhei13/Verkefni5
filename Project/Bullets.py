@@ -98,9 +98,7 @@ class Bullet(pygame.sprite.Sprite):
         worm_hit_list = pygame.sprite.spritecollide(self, self.level.worms, False, pygame.sprite.collide_mask)
         for worm in worm_hit_list:
             if worm != self.worm:
-                worm.jump()
-                worm.life -= self.damage
-                # self.onblock = True
+                worm.hit(self)
                 self.change_x = 0
                 self.change_y = 0
                 self.kill()

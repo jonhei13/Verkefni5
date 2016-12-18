@@ -193,6 +193,7 @@ class Worm(pygame.sprite.Sprite):
         for block in block_hit_list:
             self.onblock = True
             self.change_x = 0
+            self.jumping = False
 
 
         # Move up/down
@@ -222,6 +223,7 @@ class Worm(pygame.sprite.Sprite):
     def jump(self):
         # Worm Jumps
         self.onblock = False
+        self.jumping = True
         self.rect.y += 2
         platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False,
                                                         pygame.sprite.collide_mask)
@@ -230,6 +232,16 @@ class Worm(pygame.sprite.Sprite):
         # If it is ok to jump, set our speed upwards
         if len(platform_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
             self.change_y = -5
+
+    def hit(self, bullet):
+        self.onblock = False
+        self.jumping = True
+        if bullet.direction == 'R':
+            self.change_x = bullet.damage*0.3
+        else:
+            self.change_x = -bullet.damage
+        self.change_y = -bullet.damage*0.1
+        self.life -= bullet.damage
 
     # Player-controlled movement:
     def go_left(self):
